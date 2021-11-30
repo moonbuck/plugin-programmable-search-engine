@@ -1,0 +1,6 @@
+CX = "f4b9ece1e50134632"
+APIKey = "AIzaSyCt-f_3al4TvkCEX-Ety0ygzP4evioFKEs"
+
+[Build]
+Fingerprint = true
+Minify = true

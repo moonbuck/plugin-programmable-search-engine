@@ -1,0 +1,30 @@
+{
+    "version": "1.0.0",
+    "title": "Moondeer's Programmable Search Engine",
+    "description": "A plugin for injecting Google's programmable search engine",
+    "includes": [
+      "programmable-search-engine-script-injection.html"
+      ],
+     "fields": [
+        {
+          "field": "params.ProgrammableSearchEngine.CX",
+          "label": "Search Engine Identifier",
+          "placeholder": ""
+        },
+        {
+          "field": "params.ProgrammableSearchEngine.APIKey",
+          "label": "API Key",
+          "placeholder": ""
+        },
+        {
+          "field": "params.ProgrammableSearchEngine.Build.Fingerprint", 
+          "label": "Fingerprint Script",
+          "placeholder": "true"
+        },
+        {
+          "field": "params.ProgrammableSearchEngine.Build.Minify", 
+          "label": "Minify Script",
+          "placeholder": "true"
+        }
+     ]
+   }

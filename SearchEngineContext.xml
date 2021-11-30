@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomSearchEngine id="f4b9ece1e50134632" creator="014541715465410873606" language="" cx_id="f4b9ece1e50134632" last_update_time_millis="1638292117574" autocompletions="true">
+  <Title>moondeer.blog</Title>
+  <Description>Query the mind of Moondeer</Description>
+  <Context>
+    <BackgroundLabels>
+      <Label name="_include_" mode="FILTER"/>
+      <Label name="_exclude_" mode="ELIMINATE"/>
+    </BackgroundLabels>
+  </Context>
+  <LookAndFeel code="4" element_layout="8" theme="7" custom_theme="true" element_branding="hide" enable_cse_thumbnail="true" font="2">
+    <Logo height="30"/>
+    <Colors/>
+    <Promotions/>
+    <SearchControls/>
+    <Results/>
+  </LookAndFeel>
+  <ImageSearchSettings enable="true" layout="2"/>
+  <autocomplete_settings/>
+  <sort_by_keys label="Relevance" key=""/>
+  <sort_by_keys label="Date" key="date"/>
+  <cse_advance_settings/>
+</CustomSearchEngine>

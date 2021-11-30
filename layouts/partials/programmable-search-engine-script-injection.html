@@ -1,0 +1,37 @@
+{{- $params := site.Params -}}
+
+{{- $config := site.Data.plugin_programmable_search_engine_config -}}
+{{- $config  = $config | default site.Data.plugin_programmable_search_engine.config -}}
+
+{{- $CX := index $params "programmablesearchengine.cx"  -}}
+{{- $CX  = $CX | default $config.CX  -}}
+
+{{- $APIKey := index $params "programmablesearchengine.apikey"  -}}
+{{- $APIKey  = $APIKey | default $config.APIKey -}}
+
+{{- if (and $CX $APIKey) -}}
+
+<script src="https://apis.google.com/js/api.js"></script>
+
+{{- $Fingerprint := index $params "programmablesearchengine.build.fingerprint" -}}
+{{- $Fingerprint  = $Fingerprint | default $config.Build.Fingerprint -}}
+{{- $Fingerprint  = $Fingerprint | default true -}}
+
+{{- $Minify := index $params "programmablesearchengine.build.minifyscript" -}}
+{{- $Minify  = $Minify | default $config.Build.Minify -}}
+{{- $Minify  = $Minify | default true -}}
+
+{{- $script_template := resources.Get "js/programmable-search-engine.js" -}}
+{{- $script := $script_template | resources.ExecuteAsTemplate "assets/js/programmable-search-engine.js" . -}}
+
+{{- if $Minify -}}
+{{- $script = $script | minify -}}
+{{- end -}}
+
+{{- if $Fingerprint -}}
+{{- $script = $script | fingerprint -}}
+{{- end -}}
+
+<script defer type="text/javascript" src="{{ $script.Permalink }}"></script>
+
+{{- end -}}
