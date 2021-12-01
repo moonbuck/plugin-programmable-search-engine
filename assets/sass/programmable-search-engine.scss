@@ -1,76 +1,52 @@
-/*!
- * Bootstrap v5.1.3 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
+$collapsible-width: 300px;
 
-// scss-docs-start import-stack
-// Configuration
-@import "functions";
+#programmable-search-engine-collapsible {
+  
+  &:not(.show, .expanding) { display: none; }
+  
+  &.expanding {
+    width: 0;
+    height: auto;
+    transition: width .35s ease
+  }
+  
+  &.collapsing {
+    width: $collapsible-width;
+    height: auto;
+    transition: width .35s ease
+  }
+  
+}
 
-
-@import "variables";
-@import "maps";
-@import "mixins";
-@import "utilities";
-
-// Layout & components
-@import "root";
-@import "reboot";
-@import "type";
-@import "images";
-@import "containers";
-@import "grid";
-@import "tables";
-@import "forms";
-@import "buttons";
-@import "transitions";
-@import "dropdown";
-@import "button-group";
-@import "nav";
-@import "navbar";
-@import "card";
-@import "accordion";
-@import "breadcrumb";
-@import "pagination";
-@import "badge";
-@import "alert";
-@import "progress";
-@import "list-group";
-@import "close";
-@import "toasts";
-@import "modal";
-@import "tooltip";
-@import "popover";
-@import "carousel";
-@import "spinners";
-@import "offcanvas";
-@import "placeholders";
-
-// Helpers
-@import "helpers";
-
-// Utilities
-@import "utilities/api";
-// scss-docs-end import-stack
-
-input.programmable-search-engine-input {
+input#programmable-search-engine-input {
+  width: 100%;
   border: 1px solid rgba(0,0,0,0.125);
 }
 
-/* Font Awesome Icons */
+button#programmable-search-engine-button {
+  background: transparent;
+}
 
+/*!
+ * Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Commercial License)
+ */
 svg:not(:root).svg-inline--fa {
-  overflow: visible;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box
-}
+  overflow: visible; }
 
-.svg-inline--fa{
+.svg-inline--fa {
   display: inline-block;
-  display: var(--fa-display, inline-block);
-  height: 0.95em;
+  font-size: inherit;
+  height: 1em;
   overflow: visible;
-  vertical-align: -.2em
-}
+  vertical-align: -.125em; }
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1); }
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4); }
