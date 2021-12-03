@@ -1,35 +1,46 @@
 {
-    "version": "1.0.0",
-    "title": "Moondeer's Programmable Search Engine",
-    "description": "A plugin for injecting Google's programmable search engine",
-    "includes": [
-      "programmable-search-engine-script-injection.html"
-      ],
-     "fields": [
-        {
-          "field": "params.ProgrammableSearchEngine.CX",
-          "label": "Search Engine Identifier",
-          "placeholder": ""
-        },
-        {
-          "field": "params.ProgrammableSearchEngine.APIKey",
-          "label": "API Key",
-          "placeholder": ""
-        },
-        {
-          "field": "params.ProgrammableSearchEngine.Build.Fingerprint", 
-          "label": "Fingerprint Script",
-          "placeholder": "true"
-        },
-        {
-          "field": "params.ProgrammableSearchEngine.Build.SassOutput",
-          "label": "Sass Output Style",
-          "placeholder": "compressed"
-        },
-        {
-          "field": "params.ProgrammableSearchEngine.Build.Minify", 
-          "label": "Minify Script",
-          "placeholder": "true"
-        }
-     ]
-   }
+  "version": "1.0.0",
+  "title": "Moondeer's Programmable Search Engine",
+  "description": "A plugin for injecting Google's programmable search engine",
+  "includes": [
+    "plugin_pse/page-map-injection.html",
+    "plugin_pse/programmable-search-engine-script-injection.html"
+    ],
+   "fields": [
+      {
+        "field": "params.ProgrammableSearchEngine.CX",
+        "label": "Search Engine Identifier",
+        "placeholder": ""
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.APIKey",
+        "label": "API Key",
+        "placeholder": ""
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.SearchBar.ContainerID",
+        "label": "Search Bar Container ID",
+        "placeholder": "pse-container"
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.SearchBar.Input.Placeholder",
+        "label": "Search Bar Placeholder Text",
+        "placeholder": "site search"
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.Build.Fingerprint", 
+        "label": "Fingerprint Script",
+        "placeholder": "true"
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.Build.SassOutput",
+        "label": "Sass Output Style",
+        "placeholder": "compressed"
+      },
+      {
+        "field": "params.ProgrammableSearchEngine.Build.Minify", 
+        "label": "Minify Script",
+        "placeholder": "true"
+      }
+   ]
+ }

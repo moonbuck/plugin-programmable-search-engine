@@ -1,7 +1,7 @@
 {{ $params := site.Params }}
 
-{{ $config := site.Data.plugin_programmable_search_engine_config }}
-{{ $config  = $config | default site.Data.plugin_programmable_search_engine.config }}
+{{ $config := site.Data.plugin_pse_config }}
+{{ $config  = $config | default site.Data.plugin_pse.config }}
 
 {{ $CX := index $params "programmablesearchengine.cx" }}
 {{ $CX  = $CX | default $config.CX  }}
@@ -21,8 +21,8 @@
 {{ $Minify  = $Minify | default $config.Build.Minify }}
 {{ $Minify  = $Minify | default true }}
 
-{{ $script_template := resources.Get "js/programmable-search-engine.js" }}
-{{ $script := $script_template | resources.ExecuteAsTemplate "assets/js/programmable-search-engine.js" . }}
+{{ $script_template := resources.Get "js/plugin_pse/programmable-search-engine.js" }}
+{{ $script := $script_template | resources.ExecuteAsTemplate "assets/js/plugin_pse/programmable-search-engine.js" . }}
 
 {{ if $Minify }}
 {{ $script = $script | minify }}
@@ -38,10 +38,10 @@
 {{- $SassOutput  = $SassOutput | default $config.Build.SassOutput -}}
 {{- $SassOutput  = $SassOutput | default "compressed" -}}
 
-{{- $opts := dict "targetPath" "assets/css"  "outputStyle" $SassOutput -}}
+{{- $opts := dict "targetPath" "assets/css/plugin_pse/programmable-search-engine.css"  "outputStyle" $SassOutput -}}
 
-{{- $style_template := resources.Get "sass/programmable-search-engine.scss" -}}
-{{- $style := $style_template | resources.ExecuteAsTemplate "programmable-search-engine.scss" . -}} 
+{{- $style_template := resources.Get "sass/plugin_pse/programmable-search-engine.scss" -}}
+{{- $style := $style_template | resources.ExecuteAsTemplate "sass/plugin_pse/programmable-search-engine.scss" . -}} 
 {{- $style  = $style | toCSS $opts -}}
 
 {{- if $Fingerprint -}}

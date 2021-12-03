@@ -1,0 +1,78 @@
+/// Search Bar Values
+$bar-height:           1em;
+$input-width:          300px;
+$bar-transition:       width .35s ease;
+$icon-color:           lightgray;
+$icon-padding-x:       0.25em;
+$icon-padding-y:       0;
+$bar-active-color:     darkgray;
+$border-radius:        1em;
+$border-style:         solid;
+$border-color:         rgba(0,0,0,0.125);
+$border-width:         1px;
+$placeholder-color:    darkgray;
+$bar-text-color:       black;
+$bar-padding-y:        0;
+$bar-padding-x:        0.5em;
+
+/// Results Overlay Values
+$results-font-size:    1rem;
+$results-color:        currentcolor;
+$header-color:         currentcolor;
+$header-font-size:     inherit;
+$header-font-weight:   inherit;
+$index-font-weight:    inherit;
+$index-font-style:     inherit;
+$index-color:          currentcolor;
+$terms-color:          currentcolor;
+$terms-font-weight:    inherit;
+$terms-font-style:     italic;
+$nav-color:            #646386;
+$nav-hover-color:      scale-color($nav-color, $lightness: 10%);
+$title-color:          currentcolor;
+$title-font-weight:    inherit;
+$title-font-style:     inherit;
+$snippet-color:        currentcolor;
+$snippet-font-weight:  inherit;
+$snippet-font-style:   inherit;
+
+:root {
+  
+  --pse-bar-height:          #{$bar-height};
+  --pse-input-width:         #{$input-width};
+  --pse-bar-transition:      #{$bar-transition};
+  --pse-icon-color:          #{$icon-color};
+  --pse-icon-paddying-y:     #{$icon-padding-y};
+  --pse-icon-padding-x:      #{$icon-padding-x};
+  --pse-bar-active-color:    #{$bar-active-color};
+  --pse-border-radius:       #{$border-radius};
+  --pse-border-style:        #{$border-style};
+  --pse-border-color:        #{$border-color};
+  --pse-border-width:        #{$border-width};
+  --pse-placeholder-color:   #{$placeholder-color};
+  --pse-bar-text-color:      #{$bar-text-color};
+  --pse-bar-paddying-y:      #{$bar-padding-y};
+  --pse-bar-padding-x:       #{$bar-padding-x};
+  
+  --pse-results-font-size:   #{$results-font-size};
+  --pse-results-color:       #{$results-color};
+  --pse-header-color:        #{$header-color};
+  --pse-header-font-size:    #{$header-font-size};
+  --pse-header-font-weight:  #{$header-font-weight};
+  --pse-index-font-weight:   #{$index-font-weight};
+  --pse-index-font-style:    #{$index-font-style};
+  --pse-index-color:         #{$index-color};
+  --pse-terms-color:         #{$terms-color};
+  --pse-terms-font-weight:   #{$terms-font-weight};
+  --pse-terms-font-style:    #{$terms-font-style};
+  --pse-nav-color:           #{$nav-color};
+  --pse-nav-hover-color:     #{$nav-hover-color};
+  --pse-title-color:         #{$title-color};
+  --pse-title-font-weight:   #{$title-font-weight};
+  --pse-title-font-style:    #{$title-font-style};
+  --pse-snippet-color:       #{$snippet-color};
+  --pse-snippet-font-weight: #{$snippet-font-weight};
+  --pse-snippet-font-style:  #{$snippet-font-style};
+
+
+}

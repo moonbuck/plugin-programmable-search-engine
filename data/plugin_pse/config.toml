@@ -1,10 +1,14 @@
 # The search engine identifier
 #
-CX = "f4b9ece1e50134632"
+CX = ""
 
 # The search engine API key
 #
-APIKey = "AIzaSyCt-f_3al4TvkCEX-Ety0ygzP4evioFKEs"
+APIKey = ""
+
+# Parameters controlling the search bar injection and style
+[SearchBar]
+ContainerID = 'pse-container'
 
 # Parameters for controlling the generated css and js files
 #
