@@ -4,14 +4,14 @@
 // The div wrapping the input and button
 div#pse-search-bar {
   
-  display: flex;
-  justify-content: flex-end;
-  align-items: baseline;
+  position: relative;
+  min-width: 1em;
   height: var(--pse-bar-height);
+  // background-color: green;
   
   // The collapsing container that holds the input
   div#pse-collapsible {
-  
+      
     &:not(.show) { 
       
       display: none; 
@@ -36,7 +36,7 @@ div#pse-search-bar {
     
     // The input
     input#pse-input {
-            
+      
       width: var(--pse-input-width);
       color: var(--pse-bar-text-color);
       border-style: var(--pse-border-style);
@@ -45,15 +45,13 @@ div#pse-search-bar {
       border-width: var(--pse-border-width);
       //padding: var(--pse-bar-padding-y) var(--pse-bar-padding-x);
       margin: 0 inherit;
-      
-      outline-offset: initial;
-      -webkit-appearance: auto;
-      
+      outline-offset: -2px;
+      -webkit-appearance: textfield;
+  
+            
       &::-webkit-search-decoration {
-        
-        -webkit-appearance: auto;
-        
-      } // &::-webkit-search-decoration
+        -webkit-appearance: none;
+      }
       
       &::placeholder { 
         
@@ -74,10 +72,14 @@ div#pse-search-bar {
     padding: var(--pse-icon-padding-y) 
              var(--pse-icon-padding-x);
     margin: 0;
+    z-index: 2;
     
     &.expanded { 
       
-      display: none;
+      position: absolute;
+      right: 0.5em;
+      top: 0.25em;
+      color: black;
     
     } // &.expanded
     
@@ -95,15 +97,15 @@ div#pse-result-overlay {
   left: 0;
   right: 0;
   bottom: 0;
-  background: change-color(black, $alpha: 0.5);
-  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 3;
   cursor: pointer;
   
   article#pse-result-article {
     
     position: relative;
     overflow: auto;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -258,4 +260,4 @@ div#pse-result-overlay {
   fill: $icon-color;
   
   &.fa-secondary { opacity: 0.4; }
-  }
+}
