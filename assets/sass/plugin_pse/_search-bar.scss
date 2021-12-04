@@ -1,0 +1,74 @@
+div#pse-search-bar {
+  
+  position: relative;
+  min-width: 1em;
+  
+  // The input
+  input#pse-input {
+    
+    height: var(--pse-input-height);
+    transition: var(--pse-input-transition);
+    width: var(--pse-input-width);
+    color: var(--pse-input-text-color);
+    border-style: var(--pse-border-style);
+    border-radius: var(--pse-border-radius);
+    border-color: var(--pse-border-color);
+    border-width: var(--pse-border-width);
+    padding: var(--pse-input-padding-y) var(--pse-input-padding-x);
+    
+    outline-offset: -2px;
+    -webkit-appearance: textfield;
+
+          
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-decoration { 
+      
+      -webkit-appearance: none; 
+      
+    }
+    
+    &::placeholder { color: var(--pse-placeholder-color); }
+          
+  } // input#pse-input
+  
+  
+  // The button that toggles collapse state
+  button#pse-button {
+    
+    background: transparent;
+    border: none;
+    color: var(--pse-icon-color);
+    padding: var(--pse-icon-padding-y) 
+             var(--pse-icon-padding-x);
+    margin: 0;
+    z-index: 2;
+    
+    &[aria-expanded=true] { 
+      
+      position: absolute;
+      right: 0.25em;
+      top: 0.125em;
+      color: black;
+    
+    } // &.expanded
+    
+    
+    /*!
+     * Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com
+     * License - https://fontawesome.com/license (Commercial License)
+     */
+    .svg-inline--fa {
+      display: inline-block;
+      font-size: inherit;
+      height: 1em;
+      overflow: visible;
+      align-self: baseline;
+      vertical-align: baseline;
+      fill: $icon-color;
+      
+      &.fa-secondary { opacity: 0.4; }
+    }
+    
+  } // button#pse-button
+
+} // div#pse-search-bar

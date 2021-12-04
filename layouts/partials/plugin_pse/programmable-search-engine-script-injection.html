@@ -18,8 +18,8 @@
 {{ $Fingerprint  = $Fingerprint | default true }}
 
 {{ $Minify := index $params "programmablesearchengine.build.minifyscript" }}
-{{ $Minify  = $Minify | default $config.Build.Minify }}
-{{ $Minify  = $Minify | default true }}
+{{ $Minify  = $Minify | default $config.Build.MinifyScript }}
+{{ $Minify  = $Minify | default false }}
 
 {{ $script_template := resources.Get "js/plugin_pse/programmable-search-engine.js" }}
 {{ $script := $script_template | resources.ExecuteAsTemplate "assets/js/plugin_pse/programmable-search-engine.js" . }}
@@ -32,7 +32,7 @@
 {{ $script = $script | fingerprint }}
 {{ end }}
 
-<script type="text/javascript" src="{{ $script.Permalink }}"></script>
+<script type="module" src="{{ $script.Permalink }}"></script>
 
 {{- $SassOutput := index $params "programmablesearchengine.build.sassoutput" -}}
 {{- $SassOutput  = $SassOutput | default $config.Build.SassOutput -}}
