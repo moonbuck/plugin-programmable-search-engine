@@ -4,23 +4,29 @@
 {{- $config := site.Data.plugin_pse_config -}}
 {{- $config  = $config | default site.Data.plugin_pse.config -}}
 
-{{- $CX := index $params "programmablesearchengine.cx" -}}
+{{- $CX := index $params "plugin_pse.cx" -}}
 {{- $CX  = $CX | default $config.CX -}}
 
-{{- $APIKey := index $params "programmablesearchengine.apikey" -}}
+{{- $APIKey := index $params "plugin_pse.apikey" -}}
 {{- $APIKey  = $APIKey | default $config.APIKey -}}
 
 {{- /* Make sure we have what we need to continue */ -}}
 {{- if (and $CX $APIKey) -}}
 
-{{- $key := "programmablesearchengine.searchbar.containerid" -}}
+{{- $key := "plugin_pse.searchbar.containerid" -}}
 {{- $id := index $params $key -}}
 {{- $id  = $id | default $config.SearchBar.ContainerID -}}
+{{- $id  = $id | default "pse-container" -}}
 
-{{- $key = "programmablesearchengine.searchbar.input.placeholder" -}}
+{{- $key = "plugin_pse.searchbar.input.placeholder.text" -}}
 {{- $text := index $params $key -}}
 {{- $text  = $text | default $config.SearchBar.Input.Placeholder -}}
 {{- $text  = $text | default "site search" -}}
+
+const CX = '{{ $CX }}'
+const API_KEY = '{{ $APIKey }}'
+const CONTAINER = '{{ $id }}'
+const PLACEHOLDER = '{{ $text }}'
 
 const SEARCH_ICON = `\
 <svg aria-hidden='true' 
@@ -76,9 +82,9 @@ div#containerID
     
 */
 
-function insertSearchBar(containerID, placeholder, executeSearch) {
+function insertSearchBar() {
   
-  let container = document.getElementById(containerID)
+  let container = document.getElementById(CONTAINER)
   
   let searchBar = document.createElement('DIV')
   searchBar.id = SEARCH_BAR
@@ -89,7 +95,7 @@ function insertSearchBar(containerID, placeholder, executeSearch) {
   let input = document.createElement('INPUT')
   input.type = 'search'
   input.id = INPUT
-  input.placeholder = placeholder
+  input.placeholder = PLACEHOLDER
   input.name = 'pse'
   input.setAttribute('aria-label', 'site search')
   input[WIDTH] = computedStyle.getPropertyValue(INPUT_WIDTH)
@@ -98,6 +104,7 @@ function insertSearchBar(containerID, placeholder, executeSearch) {
   input.style.setProperty(INPUT_PADDING_X, 0)
   input[BORDER_STYLE] = computedStyle.getPropertyValue(INPUT_BORDER_STYLE)
   input.style.setProperty(INPUT_BORDER_STYLE, 'none')
+  input.addEventListener('keyup', ({key}) => key === 'Enter' && executeSearch())
   searchBar.appendChild(input)
   document[INPUT_ELEMENT] = input
     
@@ -209,30 +216,8 @@ function insertResultsOverlay() {
   let title = document.createElement('H2')
   title.id = TITLE
   title.appendChild(document.createTextNode('Showing results for '))  
-  // title.appendChild(document.createTextNode('Showing items '))
   header.appendChild(title)
-  
-  // let startIndex = document.createElement('SPAN')
-  // startIndex.id = START
-  // startIndex.innerText = 'startIndex'
-  // title.appendChild(startIndex)
-  
-  // title.appendChild(document.createTextNode(' - '))
-  
-  // let endIndex = document.createElement('SPAN')
-  // endIndex.id = END
-  // endIndex.innerText = 'endIndex'
-  // title.appendChild(endIndex)
-  
-  // title.appendChild(document.createTextNode(' of '))
-  
-  // let total = document.createElement('SPAN')
-  // total.id = TOTAL
-  // total.innerText = 'total'
-  // title.appendChild(total)
-  
-  // title.appendChild(document.createTextNode(' results for '))
-  
+    
   let terms = document.createElement('SPAN')
   terms.id = TERMS
   terms.innerText = 'searchTerms'
@@ -254,11 +239,7 @@ function insertResultsOverlay() {
   previous.id = PREVIOUS
   previous.innerText = 'previous'
   footer.appendChild(previous)
-  
-  // let numbers = document.createElement('UL')
-  // numbers.id = NUMBERS
-  // footer.appendChild(numbers)
-  
+    
   let next = document.createElement('A')
   next.id = NEXT
   next.innerText = 'next'
@@ -321,20 +302,13 @@ function resultListItem(result) {
   return listItem
 }
 
-const CONTAINER = '{{ $id }}'
-const PLACEHOLDER = '{{ $text }}'
-
 document.addEventListener('DOMContentLoaded',() => {
     
-  insertSearchBar(CONTAINER, PLACEHOLDER, executeSearch)
-  
-  let input = document.getElementById(INPUT)
-  input.addEventListener('keyup', ({key}) => key === 'Enter' && executeSearch())
-  
+  insertSearchBar()
   insertResultsOverlay()
   
   gapi?.load('client', () => {
-      gapi.client.setApiKey('{{ $APIKey }}');
+      gapi.client.setApiKey(API_KEY);
       gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
       .then(() => console.log('GAPI client loaded for API'))
   });
@@ -348,12 +322,9 @@ function executeSearch() {
 }
 
 function search(q, start) {
-  gapi?.client?.search.cse.list({ 
-    'cx': '{{ $CX }}',
-    'q': `${q}`,
-    'start': start
-  }).then(response => handleSearchResponse(JSON.parse(response.body)),
-          err => console.log(`error executing search: ${JSON.stringify(err)}`))
+  gapi?.client?.search.cse.list({'cx': CX, 'q': `${q}`, 'start': start})
+                          .then(response => handleSearchResponse(JSON.parse(response.body)),
+                                err => console.log(err))
 }
 
 function handleSearchResponse(response) {
@@ -365,12 +336,8 @@ function handleSearchResponse(response) {
   request = request[0]
   nextPage = nextPage?.[0]
     
-  let {startIndex, searchTerms, totalResults, count} = request
-  let endIndex = startIndex + count - 1
-    
-  // document.getElementById(START).innerText = `${startIndex}`
-  // document.getElementById(END).innerText = `${endIndex}`
-  // document.getElementById(TOTAL).innerText = `${totalResults}`
+  let {searchTerms} = request
+  
   document.getElementById(TERMS).innerText = `${searchTerms}`
   
   let list = document.getElementById(LIST)
@@ -402,32 +369,7 @@ function handleSearchResponse(response) {
   } else {
     next.hidden = true
   }
-  
-  // let numbers = document.getElementById(NUMBERS)
-  // while (numbers.firstChild) { numbers.removeChild(numbers.firstChild) }
-  
-  // let pageCount = Math.ceil(totalResults / 10)
-  
-  // for (let i = 0; i < pageCount; i++) {
     
-    // let item = document.createElement('LI')
-    
-    // let pageNumber = i + 1
-    // let start = i * 10 + 1
-    // let pageLink = document.createElement('A')
-    // pageLink.innerText = `${pageNumber}`
-    // pageLink.onclick = event => {
-    //   event[eventHandled] = true
-    //   search(searchTerms, start)
-    // }
-    // if (start == startIndex) { pageLink.active = true }
-
-    // item.appendChild(pageLink)
-    // numbers.appendChild(item)
-    
-  // }
-    
-  
   let overlay = document.getElementById(OVERLAY)
   overlay.style.display = 'block'
   

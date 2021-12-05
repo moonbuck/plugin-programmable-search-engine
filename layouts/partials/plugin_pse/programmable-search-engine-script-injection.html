@@ -3,21 +3,21 @@
 {{ $config := site.Data.plugin_pse_config }}
 {{ $config  = $config | default site.Data.plugin_pse.config }}
 
-{{ $CX := index $params "programmablesearchengine.cx" }}
+{{ $CX := index $params "plugin_pse.cx" }}
 {{ $CX  = $CX | default $config.CX  }}
 
-{{ $APIKey := index $params "programmablesearchengine.apikey"  }}
+{{ $APIKey := index $params "plugin_pse.apikey"  }}
 {{ $APIKey  = $APIKey | default $config.APIKey }}
 
 {{ if (and $CX $APIKey) }}
 
 <script src="https://apis.google.com/js/api.js"></script>
 
-{{ $Fingerprint := index $params "programmablesearchengine.build.fingerprint" }}
+{{ $Fingerprint := index $params "plugin_pse.build.fingerprint" }}
 {{ $Fingerprint  = $Fingerprint | default $config.Build.Fingerprint }}
 {{ $Fingerprint  = $Fingerprint | default true }}
 
-{{ $Minify := index $params "programmablesearchengine.build.minifyscript" }}
+{{ $Minify := index $params "plugin_pse.build.minifyscript" }}
 {{ $Minify  = $Minify | default $config.Build.MinifyScript }}
 {{ $Minify  = $Minify | default false }}
 
@@ -34,7 +34,7 @@
 
 <script type="module" src="{{ $script.Permalink }}"></script>
 
-{{- $SassOutput := index $params "programmablesearchengine.build.sassoutput" -}}
+{{- $SassOutput := index $params "plugin_pse.build.sassoutput" -}}
 {{- $SassOutput  = $SassOutput | default $config.Build.SassOutput -}}
 {{- $SassOutput  = $SassOutput | default "compressed" -}}
 

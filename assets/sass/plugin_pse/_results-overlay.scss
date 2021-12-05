@@ -18,8 +18,9 @@ div#pse-result-overlay {
     
     position: relative;
     overflow: auto;
-    background-color: change-color($results-bg-color, 
-                                   $alpha: $results-bg-opacity);
+    font-size: var(--pse-results-overlay-font-size);
+    color: var(--pse-results-overlay-color);
+    background-color: var(--pse-results-overlay-bg-color);
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -29,8 +30,6 @@ div#pse-result-overlay {
     height: 90vh;
     left: 5vw;
     top: 5vh;
-    font-size: var(--pse-results-font-size);
-    color: var(--pse-results-color);
     
     /// Page results header
     header#pse-result-header {
@@ -38,28 +37,21 @@ div#pse-result-overlay {
       display: flex;
       justify-content: center;
       margin: 1rem;
-      color: var(--pse-header-color);
+      color: var(--pse-results-overlay-header-color);
             
       #pse-result-title {
         
-        font-size: var(--pse-header-font-size);
-        font-weight: var(--pse-header-font-weight);
+        font-weight: var(--pse-results-overlay-header-font-weight);
+        font-size: var(--pse-results-overlay-header-font-size);
+        font-weight: var(--pse-results-overlay-header-font-weight);
+        font-style: var(--pse-results-overlay-header-font-styl);
         
-        #pse-result-start-index,
-        #pse-result-end-index,
-        #pse-result-total {
-          
-          font-weight: var(--pse-ndex-font-weight);
-          font-style: var(--pse-index-font-style);
-          color: var(--pse-index-color);
-          
-        } // #pse-result-start-index…
-                
         #pse-result-search-terms {
           
-          color: var(--pse-terms-color);
-          font-weight: var(--pse-terms-font-weight);
-          font-style: var(--pse-terms-font-style);
+          color: var(--pse-results-overlay-header-terms-color);
+          font-size: var(--pse-results-overlay-header-terms-font-size);
+          font-weight: var(--pse-results-overlay-header-terms-font-weight);
+          font-style: var(--pse-results-overlay-header-terms-font-style);
           
         } // #pse-result-search-terms
         
@@ -103,14 +95,16 @@ div#pse-result-overlay {
               /// Result title
               a.pse-item-title {
 
-                color: var(--pse-title-color);
-                font-weight: var(--pse-title-font-weight);
-                font-style: var(--pse-title-font-style);
+                color: var(--pse-results-overlay-item-title-color);
+                text-decoration: var(--pse-results-overlay-item-title-text-decoration);
+                font-size: var(--pse-results-overlay-item-title-font-size);
+                font-weight: var(--pse-results-overlay-item-title-font-weight);
+                font-style: var(--pse-results-overlay-item-title-font-style);
                 
                 &:hover { 
                   
-                  text-decoration: underline; 
-                  color: var(--pse-title-hover-color);
+                  color: var(--pse-results-overlay-item-title-hover-color);
+                  text-decoration: var(--pse-results-overlay-item-title-hover-text-decoration);
                   
                 }
                 
@@ -136,9 +130,10 @@ div#pse-result-overlay {
               p.pse-snippet {
                 
                 flex-grow: 1;
-                color: var(--pse-snippet-color);
-                font-weight: var(--pse-snippet-font-weight);
-                font-style: var(--pse-snippet-font-style);
+                color: var(--pse-results-overlay-item-snippet-color);
+                font-size: var(--pse-results-overlay-item-snippet-font-size);
+                font-weight: var(--pse-results-overlay-item-snippet-font-weight);
+                font-style: var(--pse-results-overlay-item-snippet-font-style);
                 
               } // p.pse-snippet
               
@@ -165,32 +160,16 @@ div#pse-result-overlay {
       place-items: center;
       padding-bottom: 2rem;
       
-      // ul#pse-result-page-numbers {
-        
-      //   list-style: none;
-      //   display: flex;
-      //   padding: 0;
-      //   margin: 0;
-      //   display: none;
-        
-      //   li a {
-      //     text-decoration: none;
-          
-      //     &:hover, &:active { text-decoration: underline; }
-          
-      //   }
-        
-      // } // ul#pse-result-page-numbers
-      
       a {
         
         background: transparent;
-        color: var(--pse-nav-color);
+        color: var(--pse-results-overlay-link-color);
+        text-decoration: var(--pse-results-overlay-link-text-decoration);
         
         &:hover { 
           
-          color: var(--pse-nav-hover-color);
-          text-decoration: underline;
+          color: var(--pse-results-overlay-link-hover-color);
+          text-decoration: var(--pse-results-overlay-link-hover-text-decoration);
           
         } // &:hover 
         

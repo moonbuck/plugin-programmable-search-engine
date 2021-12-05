@@ -6,15 +6,15 @@ div#pse-search-bar {
   // The input
   input#pse-input {
     
-    height: var(--pse-input-height);
-    transition: var(--pse-input-transition);
-    width: var(--pse-input-width);
-    color: var(--pse-input-text-color);
-    border-style: var(--pse-border-style);
-    border-radius: var(--pse-border-radius);
-    border-color: var(--pse-border-color);
-    border-width: var(--pse-border-width);
-    padding: var(--pse-input-padding-y) var(--pse-input-padding-x);
+    height: var(--pse-search-bar-input-height);
+    transition: width var(--pse-search-bar-input-transition-duration) var(--pse-search-bar-input-transition-timing-function);
+    width: var(--pse-search-bar-input-width);
+    color: var(--pse-search-bar-input-color);
+    border-style: var(--pse-search-bar-input-border-style);
+    border-radius: var(--pse-search-bar-input-border-radius);
+    border-color: var(--pse-search-bar-input-border-color);
+    border-width: var(--pse-search-bar-input-border-width);
+    padding: var(--pse-search-bar-input-padding-y) var(--pse-search-bar-input-padding-x);
     
     outline-offset: -2px;
     -webkit-appearance: textfield;
@@ -27,7 +27,7 @@ div#pse-search-bar {
       
     }
     
-    &::placeholder { color: var(--pse-placeholder-color); }
+    &::placeholder { color: var(--pse-search-bar-input-placeholder-color); }
           
   } // input#pse-input
   
@@ -37,9 +37,8 @@ div#pse-search-bar {
     
     background: transparent;
     border: none;
-    color: var(--pse-icon-color);
-    padding: var(--pse-icon-padding-y) 
-             var(--pse-icon-padding-x);
+    color: var(--pse-search-bar-icon-color);
+    padding: var(--pse-search-bar-icon-padding-y) var(--pse-search-bar-icon-padding-x);
     margin: 0;
     z-index: 2;
     
@@ -64,7 +63,7 @@ div#pse-search-bar {
       overflow: visible;
       align-self: baseline;
       vertical-align: baseline;
-      fill: $icon-color;
+      fill: var(--pse-search-bar-icon-color);
       
       &.fa-secondary { opacity: 0.4; }
     }
