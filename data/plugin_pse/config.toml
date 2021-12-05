@@ -101,20 +101,20 @@ Color = 'rgba(0,0,0,0.125)'
 #
 Width = '1px'
 
-# Styling the magnifying glass icon
-[SearchBar.Icon]
+# Styling the search bar button
+[SearchBar.Button]
 
-# The color to set for the magnifying glass when the input is collapsed
+# The color to set for the button when the input is collapsed
 #
 Color = 'lightgray'
 
-[SearchBar.Icon.Padding]
+[SearchBar.Button.Padding]
 
-# The horizontal padding to set on the icon
+# The horizontal padding to set on the button
 #
 X = '0.25em'
 
-# The vertical padding to set on the icon
+# The vertical padding to set on the button
 #
 Y = '0'
 

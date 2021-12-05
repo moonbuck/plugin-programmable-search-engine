@@ -20,7 +20,7 @@
 
 {{- $key = "plugin_pse.searchbar.input.placeholder.text" -}}
 {{- $text := index $params $key -}}
-{{- $text  = $text | default $config.SearchBar.Input.Placeholder -}}
+{{- $text  = $text | default $config.SearchBar.Input.Placeholder.Text -}}
 {{- $text  = $text | default "site search" -}}
 
 const CX = '{{ $CX }}'
@@ -56,15 +56,15 @@ const SEARCH_ICON = `\
 
 
 const SEARCH_BAR = 'pse-search-bar'
-const INPUT = 'pse-input'
-const BUTTON = 'pse-button'
+const INPUT = 'pse-search-bar-input'
+const BUTTON = 'pse-search-bar-button'
 const IS_EXPANDED = Symbol('isExpanded')
 const WIDTH = Symbol('width')
 const BORDER_STYLE = Symbol('borderStyle')
 const PADDING_X = Symbol('paddingX')
-const INPUT_WIDTH = '--pse-input-width'
-const INPUT_PADDING_X = '--pse-input-padding-x'
-const INPUT_BORDER_STYLE = '--pse-border-style'
+const INPUT_WIDTH = '--pse-search-bar-input-width'
+const INPUT_PADDING_X = '--pse-search-bar-input-padding-x'
+const INPUT_BORDER_STYLE = '--pse-search-bar-input-border-style'
 const EXPANDED = 'aria-expanded'
 const INPUT_ELEMENT = Symbol('inputElement')
 const BUTTON_ELEMENT = Symbol('buttonElement')
@@ -154,23 +154,19 @@ function toggleInput() {
 }
 
 const eventHandled = Symbol("eventHandled")
-const OVERLAY = 'pse-result-overlay'
-const ARTICLE = 'pse-result-article'
-const HEADER = 'pse-result-header'
-const TITLE = 'pse-result-title'
-const START = 'pse-result-start-index'
-const END = 'pse-result-end-index'
-const TOTAL = 'pse-result-total'
-const TERMS = 'pse-result-search-terms'
-const ITEMS = 'pse-result-items'
-const LIST = 'pse-result-item-list'
+const OVERLAY = 'pse-results-overlay'
+const ARTICLE = 'pse-results-article'
+const HEADER = 'pse-results-header'
+const TITLE = 'pse-results-title'
+const TERMS = 'pse-results-search-terms'
+const ITEMS = 'pse-results-items'
+const LIST = 'pse-results-item-list'
 const ITEM_ARTICLE = 'pse-result-item-article'
 const ITEM_HEADER = 'pse-result-item-header'
 const ITEM_BODY = 'pse-result-item-body'
-const FOOTER = 'pse-result-footer'
-const PREVIOUS = 'pse-result-previous-page'
-const NUMBERS = 'pse-result-page-numbers'
-const NEXT = 'pse-result-next-page'
+const FOOTER = 'pse-results-footer'
+const PREVIOUS = 'pse-results-previous-page'
+const NEXT = 'pse-results-next-page'
 
 /*
 
@@ -180,13 +176,7 @@ div#OVERLAY
   article#ARTICLE
     header#HEADER
       h2#TITLE
-        Showing items
-        span#START
-        -
-        span#END
-        of
-        span#TOTAL
-        results for
+        Showing results for
         span#TERMS
     section#ITEMS
       ul#LIST
@@ -250,10 +240,10 @@ function insertResultsOverlay() {
   
 }
 
-const LIST_ITEM = 'pse-list-item'
-const ITEM_TITLE = 'pse-item-title'
-const SNIPPET = 'pse-snippet'
-const THUMBNAIL = 'pse-thumbnail'
+const LIST_ITEM = 'pse-result-list-item'
+const ITEM_TITLE = 'pse-result-item-title'
+const SNIPPET = 'pse-result-item-snippet'
+const THUMBNAIL = 'pse-result-item-thumbnail'
 
 
 function resultListItem(result) {

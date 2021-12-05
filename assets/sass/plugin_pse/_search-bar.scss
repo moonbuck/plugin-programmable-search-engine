@@ -4,7 +4,7 @@ div#pse-search-bar {
   min-width: 1em;
   
   // The input
-  input#pse-input {
+  input#pse-search-bar-input {
     
     height: var(--pse-search-bar-input-height);
     transition: width var(--pse-search-bar-input-transition-duration) var(--pse-search-bar-input-transition-timing-function);
@@ -33,12 +33,12 @@ div#pse-search-bar {
   
   
   // The button that toggles collapse state
-  button#pse-button {
+  button#pse-search-bar-button {
     
     background: transparent;
     border: none;
-    color: var(--pse-search-bar-icon-color);
-    padding: var(--pse-search-bar-icon-padding-y) var(--pse-search-bar-icon-padding-x);
+    color: var(--pse-search-bar-button-color);
+    padding: var(--pse-search-bar-button-padding-y) var(--pse-search-bar-button-padding-x);
     margin: 0;
     z-index: 2;
     
@@ -63,7 +63,7 @@ div#pse-search-bar {
       overflow: visible;
       align-self: baseline;
       vertical-align: baseline;
-      fill: var(--pse-search-bar-icon-color);
+      fill: var(--pse-search-bar-button-color);
       
       &.fa-secondary { opacity: 0.4; }
     }

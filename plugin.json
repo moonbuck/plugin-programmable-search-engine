@@ -103,18 +103,18 @@
         "placeholder": "1px"
       },
       {
-        "field": "params.plugin_pse.SearchBar.Input.Icon.Color",
-        "label": "Icon Color",
+        "field": "params.plugin_pse.SearchBar.Input.Button.Color",
+        "label": "Button Color",
         "placeholder": "lightgray"
       },
       {
-        "field": "params.plugin_pse.SearchBar.Input.Icon.Padding.X",
-        "label": "Icon Horizontal Padding",
+        "field": "params.plugin_pse.SearchBar.Input.Button.Padding.X",
+        "label": "Button Horizontal Padding",
         "placeholder": "0.25em"
       },
       {
-        "field": "params.plugin_pse.SearchBar.Input.Icon.Padding.Y",
-        "label": "Icon Vertical Padding",
+        "field": "params.plugin_pse.SearchBar.Input.Button.Padding.Y",
+        "label": "Button Vertical Padding",
         "placeholder": "0"
       },
       {

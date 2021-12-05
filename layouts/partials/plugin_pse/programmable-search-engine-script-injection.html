@@ -21,6 +21,14 @@
 {{ $Minify  = $Minify | default $config.Build.MinifyScript }}
 {{ $Minify  = $Minify | default false }}
 
+{{/*
+ 
+  parameters.js
+  ids-class-names.js
+  
+  
+  */}}
+
 {{ $script_template := resources.Get "js/plugin_pse/programmable-search-engine.js" }}
 {{ $script := $script_template | resources.ExecuteAsTemplate "assets/js/plugin_pse/programmable-search-engine.js" . }}
 

@@ -14,9 +14,9 @@
 {{- $parameters.Set "SearchBar.Input.Border.Style" "solid" -}}
 {{- $parameters.Set "SearchBar.Input.Border.Color" "rgba(0,0,0,0.125)" -}}
 {{- $parameters.Set "SearchBar.Input.Border.Width" "1px" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Color" "lightgray" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.X" "0.25em" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.Y" "0" -}}
+{{- $parameters.Set "SearchBar.Button.Color" "lightgray" -}}
+{{- $parameters.Set "SearchBar.Button.Padding.X" "0.25em" -}}
+{{- $parameters.Set "SearchBar.Button.Padding.Y" "0" -}}
 {{- $parameters.Set "ResultsOverlay.Color" "currentcolor" -}}
 {{- $parameters.Set "ResultsOverlay.Font.Size" "1rem" -}}
 {{- $parameters.Set "ResultsOverlay.BG.Color" "rgba(255,255,255,1)" -}}
@@ -83,14 +83,14 @@
 {{- with .SearchBar.Input.Border.Width -}}
 {{- $parameters.Set "SearchBar.Input.Border.Width" . -}}
 {{- end -}}
-{{- with .SearchBar.Input.Icon.Color -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Color" . -}}
+{{- with .SearchBar.Button.Color -}}
+{{- $parameters.Set "SearchBar.Button.Color" . -}}
 {{- end -}}
-{{- with .SearchBar.Input.Icon.Padding.X -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.X" . -}}
+{{- with .SearchBar.Button.Padding.X -}}
+{{- $parameters.Set "SearchBar.Button.Padding.X" . -}}
 {{- end -}}
-{{- with .SearchBar.Input.Icon.Padding.Y -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.Y" . -}}
+{{- with .SearchBar.Button.Padding.Y -}}
+{{- $parameters.Set "SearchBar.Button.Padding.Y" . -}}
 {{- end -}}
 {{- with .ResultsOverlay.Font.Size -}}
 {{- $parameters.Set "ResultsOverlay.Font.Size" . -}}
@@ -206,14 +206,14 @@
 {{- with index site.Params "plugin_pse.searchbar.input.border.width" -}}
 {{- $parameters.Set "SearchBar.Input.Border.Width" . -}}
 {{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.icon.color" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Color" . -}}
+{{- with index site.Params "plugin_pse.searchbar.button.color" -}}
+{{- $parameters.Set "SearchBar.Button.Color" . -}}
 {{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.icon.padding.x" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.X" . -}}
+{{- with index site.Params "plugin_pse.searchbar.button.padding.x" -}}
+{{- $parameters.Set "SearchBar.Button.Padding.X" . -}}
 {{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.icon.padding.y" -}}
-{{- $parameters.Set "SearchBar.Input.Icon.Padding.Y" . -}}
+{{- with index site.Params "plugin_pse.searchbar.button.padding.y" -}}
+{{- $parameters.Set "SearchBar.Button.Padding.Y" . -}}
 {{- end -}}
 {{- with index site.Params "plugin_pse.resultsoverlay.bg.color" -}}
 {{- $parameters.Set "ResultsOverlay.BG.Color" . -}}
@@ -302,9 +302,9 @@ $search-bar-input-border-radius: {{ $parameters.Get "SearchBar.Input.Border.Radi
 $search-bar-input-border-style: {{ $parameters.Get "SearchBar.Input.Border.Style" }};
 $search-bar-input-border-color: {{ $parameters.Get "SearchBar.Input.Border.Color" }};
 $search-bar-input-border-width: {{ $parameters.Get "SearchBar.Input.Border.Width" }};
-$search-bar-icon-color: {{ $parameters.Get "SearchBar.Icon.Color" }};
-$search-bar-icon-padding-x: {{ $parameters.Get "SearchBar.Icon.Padding.X" }};
-$search-bar-icon-padding-y: {{ $parameters.Get "SearchBar.Icon.Padding.Y" }};
+$search-bar-button-color: {{ $parameters.Get "SearchBar.Button.Color" }};
+$search-bar-button-padding-x: {{ $parameters.Get "SearchBar.Button.Padding.X" }};
+$search-bar-button-padding-y: {{ $parameters.Get "SearchBar.Button.Padding.Y" }};
 
 /// Results Overlay Values
 $results-overlay-color: {{ $parameters.Get "ResultsOverlay.Color" }};
@@ -350,9 +350,9 @@ $results-overlay-item-snippet-font-style: {{ $parameters.Get "ResultsOverlay.Ite
   --pse-search-bar-input-border-style: #{$search-bar-input-border-style};
   --pse-search-bar-input-border-color: #{$search-bar-input-border-color};
   --pse-search-bar-input-border-width: #{$search-bar-input-border-width};
-  --pse-search-bar-icon-color: #{$search-bar-icon-color};
-  --pse-search-bar-icon-padding-x: #{$search-bar-icon-padding-x};
-  --pse-search-bar-icon-padding-y: #{$search-bar-icon-padding-y};
+  --pse-search-bar-button-color: #{$search-bar-button-color};
+  --pse-search-bar-button-padding-x: #{$search-bar-button-padding-x};
+  --pse-search-bar-button-padding-y: #{$search-bar-button-padding-y};
   
   /// Results Overlay Values
   --pse-results-overlay-color: #{$results-overlay-color};
