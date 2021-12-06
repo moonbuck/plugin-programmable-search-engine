@@ -10,6 +10,7 @@
 {{- /* Only proceed with identifier and api key values */ -}}
 {{- if (and $CX $APIKey) -}}
 
+{{- print "\n" -}}
 <script src="https://apis.google.com/js/api.js"></script>
 
 {{- $source_dir := "js/plugin_pse/" -}}
@@ -21,6 +22,7 @@
 {{- if $MinifyScript }}{{ $script = $script | minify }}{{ end -}}
 {{- if $Fingerprint }}{{ $script = $script | fingerprint }}{{ end -}}
 
+{{- print "\n" -}}
 <script src="{{ $script.Permalink }}"></script>
 
 {{- $source_dir = "sass/plugin_pse/" -}}
@@ -35,6 +37,7 @@
 
 {{- if $Fingerprint }}{{ $style = $style | fingerprint }}{{ end -}}
 
+{{- print "\n" -}}
 <link rel="stylesheet" href="{{ $style.Permalink }}">
 
 {{- end -}}
