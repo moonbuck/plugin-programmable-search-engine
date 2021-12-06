@@ -1,59 +1,10 @@
-{{- /* Grab plugin paramter values required by the Javascript */ -}}
-{{- $params := site.Params -}}
+/* Constants */
 
-{{- $config := site.Data.plugin_pse_config -}}
-{{- $config  = $config | default site.Data.plugin_pse.config -}}
-
-{{- $CX := index $params "plugin_pse.cx" -}}
-{{- $CX  = $CX | default $config.CX -}}
-
-{{- $APIKey := index $params "plugin_pse.apikey" -}}
-{{- $APIKey  = $APIKey | default $config.APIKey -}}
-
-{{- /* Make sure we have what we need to continue */ -}}
-{{- if (and $CX $APIKey) -}}
-
-{{- $key := "plugin_pse.searchbar.containerid" -}}
-{{- $id := index $params $key -}}
-{{- $id  = $id | default $config.SearchBar.ContainerID -}}
-{{- $id  = $id | default "pse-container" -}}
-
-{{- $key = "plugin_pse.searchbar.input.placeholder.text" -}}
-{{- $text := index $params $key -}}
-{{- $text  = $text | default $config.SearchBar.Input.Placeholder.Text -}}
-{{- $text  = $text | default "site search" -}}
-
-const CX = '{{ $CX }}'
-const API_KEY = '{{ $APIKey }}'
-const CONTAINER = '{{ $id }}'
-const PLACEHOLDER = '{{ $text }}'
-
-const SEARCH_ICON = `\
-<svg aria-hidden='true' 
-     focusable='false' 
-     data-prefix='fad' 
-     data-icon='magnifying-glass' 
-     class='svg-inline--fa fa-magnifying-glass' 
-     role='img' 
-     xmlns='http://www.w3.org/2000/svg' 
-     viewBox='0 0 512 512'>
-  <g class='fa-duotone-group'>
-    <path class='fa-secondary' 
-          fill='currentColor' 
-          d='M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 \
-             416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 \
-             0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 \
-             128 128C335.1 278.6 278.6 336 207.1 336z'>
-    </path>
-    <path class='fa-primary' 
-          fill='currentColor' 
-          d='M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 \
-             56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 \
-             484.7 515.9 459.3 500.3 443.7z'>
-    </path>
-  </g>
-</svg>`
-
+// Plugin parameter values
+const CX = '{{ .Scratch.Get "CX" }}'
+const API_KEY = '{{ .Scratch.Get "APIKey" }}'
+const CONTAINER_ID = '{{ .Scratch.Get "SearchBar.ContainerID" }}'
+const PLACEHOLDER_TEXT = '{{ .Scratch.Get "SearchBar.Input.Placeholder.Text" }}'
 
 const SEARCH_BAR = 'pse-search-bar'
 const INPUT = 'pse-search-bar-input'
@@ -69,22 +20,54 @@ const EXPANDED = 'aria-expanded'
 const INPUT_ELEMENT = Symbol('inputElement')
 const BUTTON_ELEMENT = Symbol('buttonElement')
 
+const eventHandled = Symbol("eventHandled")
+const OVERLAY = 'pse-results-overlay'
+const ARTICLE = 'pse-results-article'
+const HEADER = 'pse-results-header'
+const TITLE = 'pse-results-title'
+const TERMS = 'pse-results-search-terms'
+const ITEMS = 'pse-results-items'
+const LIST = 'pse-results-item-list'
+const ITEM_ARTICLE = 'pse-result-item-article'
+const ITEM_HEADER = 'pse-result-item-header'
+const ITEM_BODY = 'pse-result-item-body'
+const FOOTER = 'pse-results-footer'
+const PREVIOUS = 'pse-results-previous-page'
+const NEXT = 'pse-results-next-page'
 
-/*
+const LIST_ITEM = 'pse-result-list-item'
+const ITEM_TITLE = 'pse-result-item-title'
+const SNIPPET = 'pse-result-item-snippet'
+const THUMBNAIL = 'pse-result-item-thumbnail'
 
-Structure:
-
-div#containerID
-  div#SEARCH_BAR
-    input#INPUT
-    button#BUTTON
-      SEARCH_ICON
+document.addEventListener('DOMContentLoaded',() => {
     
-*/
+  insertSearchBar()
+  insertResultsOverlay()
+  
+  gapi?.load('client', () => {
+      gapi.client.setApiKey(API_KEY);
+      gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
+      .then(() => console.log('GAPI client loaded for API'))
+  });
+  
+})
+
+// Make sure the client is loaded before calling this method.
+function executeSearch() {
+  document[INPUT_ELEMENT].blur()
+  search(document[INPUT_ELEMENT].value, 1)
+}
+
+function search(q, start) {
+  gapi?.client?.search.cse.list({'cx': CX, 'q': `${q}`, 'start': start})
+                          .then(response => handleSearchResponse(JSON.parse(response.body)),
+                                err => console.log(err))
+}
 
 function insertSearchBar() {
   
-  let container = document.getElementById(CONTAINER)
+  let container = document.getElementById(CONTAINER_ID)
   
   let searchBar = document.createElement('DIV')
   searchBar.id = SEARCH_BAR
@@ -95,7 +78,7 @@ function insertSearchBar() {
   let input = document.createElement('INPUT')
   input.type = 'search'
   input.id = INPUT
-  input.placeholder = PLACEHOLDER
+  input.placeholder = PLACEHOLDER_TEXT
   input.name = 'pse'
   input.setAttribute('aria-label', 'site search')
   input[WIDTH] = computedStyle.getPropertyValue(INPUT_WIDTH)
@@ -121,7 +104,31 @@ function insertSearchBar() {
   input.onblur = toggleInput
   
   let svg = document.createElement('SVG')
-  svg.innerHTML = SEARCH_ICON
+  svg.innerHTML = `\
+<svg aria-hidden='true' 
+     focusable='false' 
+     data-prefix='fad' 
+     data-icon='magnifying-glass' 
+     class='svg-inline--fa fa-magnifying-glass' 
+     role='img' 
+     xmlns='http://www.w3.org/2000/svg' 
+     viewBox='0 0 512 512'>
+  <g class='fa-duotone-group'>
+    <path class='fa-secondary' 
+          fill='currentColor' 
+          d='M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 \
+             416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 \
+             0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 \
+             128 128C335.1 278.6 278.6 336 207.1 336z'>
+    </path>
+    <path class='fa-primary' 
+          fill='currentColor' 
+          d='M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 \
+             56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 \
+             484.7 515.9 459.3 500.3 443.7z'>
+    </path>
+  </g>
+</svg>`
   button.appendChild(svg)
  
 }
@@ -151,41 +158,8 @@ function toggleInput() {
     button[IS_EXPANDED] = true
   }
   
-}
-
-const eventHandled = Symbol("eventHandled")
-const OVERLAY = 'pse-results-overlay'
-const ARTICLE = 'pse-results-article'
-const HEADER = 'pse-results-header'
-const TITLE = 'pse-results-title'
-const TERMS = 'pse-results-search-terms'
-const ITEMS = 'pse-results-items'
-const LIST = 'pse-results-item-list'
-const ITEM_ARTICLE = 'pse-result-item-article'
-const ITEM_HEADER = 'pse-result-item-header'
-const ITEM_BODY = 'pse-result-item-body'
-const FOOTER = 'pse-results-footer'
-const PREVIOUS = 'pse-results-previous-page'
-const NEXT = 'pse-results-next-page'
-
-/*
-
-Structure:
-
-div#OVERLAY
-  article#ARTICLE
-    header#HEADER
-      h2#TITLE
-        Showing results for
-        span#TERMS
-    section#ITEMS
-      ul#LIST
-    footer#FOOTER
-      button#PREVIOUS
-      button#NEXT
-
-*/
-
+ }
+  
 function insertResultsOverlay() {
   
   let overlay = document.createElement('DIV')
@@ -240,11 +214,6 @@ function insertResultsOverlay() {
   
 }
 
-const LIST_ITEM = 'pse-result-list-item'
-const ITEM_TITLE = 'pse-result-item-title'
-const SNIPPET = 'pse-result-item-snippet'
-const THUMBNAIL = 'pse-result-item-thumbnail'
-
 
 function resultListItem(result) {
   
@@ -292,30 +261,6 @@ function resultListItem(result) {
   return listItem
 }
 
-document.addEventListener('DOMContentLoaded',() => {
-    
-  insertSearchBar()
-  insertResultsOverlay()
-  
-  gapi?.load('client', () => {
-      gapi.client.setApiKey(API_KEY);
-      gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
-      .then(() => console.log('GAPI client loaded for API'))
-  });
-  
-})
-
-// Make sure the client is loaded before calling this method.
-function executeSearch() {
-  document[INPUT_ELEMENT].blur()
-  search(document[INPUT_ELEMENT].value, 1)
-}
-
-function search(q, start) {
-  gapi?.client?.search.cse.list({'cx': CX, 'q': `${q}`, 'start': start})
-                          .then(response => handleSearchResponse(JSON.parse(response.body)),
-                                err => console.log(err))
-}
 
 function handleSearchResponse(response) {
 
@@ -368,9 +313,3 @@ function handleSearchResponse(response) {
   document[INPUT_ELEMENT].value = ''
   
 }
-
-{{ else }}
-
-/* {{ "Generating this script requires valid CX and APIKey values" }} */
-
-{{ end }}

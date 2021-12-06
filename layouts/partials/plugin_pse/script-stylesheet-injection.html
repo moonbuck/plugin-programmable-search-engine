@@ -1,0 +1,40 @@
+{{- /* Load parameter values into page scratch */ -}}
+{{- partial "resolve-parameter-values.html" . -}}
+
+{{- $CX := .Scratch.Get "CX" -}}
+{{- $APIKey := .Scratch.Get "APIKey"  -}}
+{{- $MinifyScript := .Scratch.Get "Build.MinifyScript" -}}
+{{- $Fingerprint := .Scratch.Get "Build.Fingerprint" -}}
+{{- $SassOutput := .Scratch.Get "Build.SassOutput" -}}
+
+{{- /* Only proceed with identifier and api key values */ -}}
+{{- if (and $CX $APIKey) -}}
+
+<script src="https://apis.google.com/js/api.js"></script>
+
+{{- $source_dir := "js/plugin_pse/" -}}
+{{- $template_name := "programmable-search-engine.js" -}}
+{{- $source := path.Join $source_dir $template_name -}}
+{{- $target := path.Join "assets" $source -}}
+
+{{- $script := resources.Get $source | resources.ExecuteAsTemplate $target . -}}
+{{- if MinifyScript }}{{ $script = $script | minify }}{{ end -}}
+{{- if $Fingerprint }}{{ $script = $script | fingerprint }}{{ end -}}
+
+<script src="{{ $script.Permalink }}"></script>
+
+{{- $source_dir = "sass/plugin_pse/" -}}
+{{- $template_name = "programmable-search-engine.scss" -}}
+{{- $source = path.Join $source_dir $template_name -}}
+{{- $target := path.Join "assets" $source -}}
+{{- $style := resources.Get $source | resources.ExecuteAsTemplate $target . -}} 
+
+{{- $target = $target | replaceRE "sass|scss" "css" -}}
+{{- $options := dict "targetPath" $target  "outputStyle" $SassOutput -}}
+{{- $style = $style | toCSS $options -}}
+
+{{- if $Fingerprint }}{{ $style = $style | fingerprint }}{{ end -}}
+
+<link rel="stylesheet" href="{{ $style.Permalink }}">
+
+{{- end -}}

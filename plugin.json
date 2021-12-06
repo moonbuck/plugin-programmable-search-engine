@@ -38,6 +38,16 @@
         "placeholder": "pse-container"
       },
       {
+        "field": "params.plugin_pse.SearchBar.Input.Collapsible",
+        "label": "Collapsible",
+        "placeholder": "true"
+      },
+      {
+        "field": "params.plugin_pse.SearchBar.Input.InitialState",
+        "label": "Initial State",
+        "placeholder": "collapsed"
+      },
+      {
         "field": "params.plugin_pse.SearchBar.Input.Height",
         "label": "Input Height",
         "placeholder": "auto"

@@ -1,338 +1,47 @@
-{{- /* Grab plugin paramter values required by the Sass */ -}}
-{{- $parameters := newScratch -}}
-
-{{- /* Load scratch with default values */ -}}
-{{- $parameters.Set "SearchBar.Input.Height" "auto" -}}
-{{- $parameters.Set "SearchBar.Input.Width" "300px" -}}
-{{- $parameters.Set "SearchBar.Input.Color" "black" -}}
-{{- $parameters.Set "SearchBar.Input.Placeholder.Color" "darkgray" -}}
-{{- $parameters.Set "SearchBar.Input.Transition.Duration" "0.35s" -}}
-{{- $parameters.Set "SearchBar.Input.Transition.TimingFunction" "ease" -}}
-{{- $parameters.Set "SearchBar.Input.Padding.Y" "0" -}}
-{{- $parameters.Set "SearchBar.Input.Padding.X" "0.5em" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Radius" "1em" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Style" "solid" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Color" "rgba(0,0,0,0.125)" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Width" "1px" -}}
-{{- $parameters.Set "SearchBar.Button.Color" "lightgray" -}}
-{{- $parameters.Set "SearchBar.Button.Padding.X" "0.25em" -}}
-{{- $parameters.Set "SearchBar.Button.Padding.Y" "0" -}}
-{{- $parameters.Set "ResultsOverlay.Color" "currentcolor" -}}
-{{- $parameters.Set "ResultsOverlay.Font.Size" "1rem" -}}
-{{- $parameters.Set "ResultsOverlay.BG.Color" "rgba(255,255,255,1)" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Color" "currentcolor" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Size" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Weight" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Style" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Color" "currentcolor" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Size" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Weight" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Style" "italic" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Color" "#646386" -}}
-{{- $parameters.Set "ResultsOverlay.Link.TextDecoration" "none" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.Color" "scale-color($results-overlay-link-color, $lightness: 10%)" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.TextDecoration" "underline" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Color" "$results-overlay-link-color" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.TextDecoration" "$results-overlay-link-text-decoration" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.Color" "$results-overlay-link-hover-color" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.TextDecoration" "$results-overlay-link-hover-text-decoration" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Size" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Weight" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Style" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Color" "currentcolor" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Size" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Weight" "inherit" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Style" "inherit" -}}
-
-
-{{- /* Overwrite default values with any values found in a config file */ -}}
-{{- with site.Data.plugin_pse_config | default site.Data.plugin_pse.config -}}
-{{- with .SearchBar.Input.Height -}}
-{{- $parameters.Set "SearchBar.Input.Height" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Width -}}
-{{- $parameters.Set "SearchBar.Input.Width" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Color -}}
-{{- $parameters.Set "SearchBar.Input.Color" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Placeholder.Color -}}
-{{- $parameters.Set "SearchBar.Input.Placeholder.Color" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Transition.Duration -}}
-{{- $parameters.Set "SearchBar.Input.Transition.Duration" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Transition.TimingFunction -}}
-{{- $parameters.Set "SearchBar.Input.Transition.TimingFunction" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Padding.Y -}}
-{{- $parameters.Set "SearchBar.Input.Padding.Y" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Padding.X -}}
-{{- $parameters.Set "SearchBar.Input.Padding.X" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Border.Radius -}}
-{{- $parameters.Set "SearchBar.Input.Border.Radius" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Border.Style -}}
-{{- $parameters.Set "SearchBar.Input.Border.Style" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Border.Color -}}
-{{- $parameters.Set "SearchBar.Input.Border.Color" . -}}
-{{- end -}}
-{{- with .SearchBar.Input.Border.Width -}}
-{{- $parameters.Set "SearchBar.Input.Border.Width" . -}}
-{{- end -}}
-{{- with .SearchBar.Button.Color -}}
-{{- $parameters.Set "SearchBar.Button.Color" . -}}
-{{- end -}}
-{{- with .SearchBar.Button.Padding.X -}}
-{{- $parameters.Set "SearchBar.Button.Padding.X" . -}}
-{{- end -}}
-{{- with .SearchBar.Button.Padding.Y -}}
-{{- $parameters.Set "SearchBar.Button.Padding.Y" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Font.Size -}}
-{{- $parameters.Set "ResultsOverlay.Font.Size" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.BG.Color -}}
-{{- $parameters.Set "ResultsOverlay.BG.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Color -}}
-{{- $parameters.Set "ResultsOverlay.Header.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Font.Size -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Size" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Font.Weight -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Weight" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Font.Style -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Style" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Terms.Color -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Terms.Font.Size -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Size" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Terms.Font.Weight -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Weight" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Header.Terms.Font.Style -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Style" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Link.Color -}}
-{{- $parameters.Set "ResultsOverlay.Link.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Link.TextDecoration -}}
-{{- $parameters.Set "ResultsOverlay.Link.TextDecoration" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Link.Hover.Color -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Link.Hover.TextDecoration -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.TextDecoration" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Color -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.TextDecoration -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.TextDecoration" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Hover.Color -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Hover.TextDecoration -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.TextDecoration" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Font.Size -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Size" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Font.Weight -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Weight" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Title.Font.Style -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Style" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Snippet.Color -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Color" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Snippet.Font.Size -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Size" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Snippet.Font.Weight -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Weight" . -}}
-{{- end -}}
-{{- with .ResultsOverlay.Item.Snippet.Font.Style -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Style" . -}}
-{{- end -}}
-{{- end -}}
-
-{{- /* Overwrite those values with any values set via the plugin parameter interface */ -}}
-{{- with index site.Params "plugin_pse.searchbar.input.height" -}}
-{{- $parameters.Set "SearchBar.Input.Height" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.width" -}}
-{{- $parameters.Set "SearchBar.Input.Width" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.color" -}}
-{{- $parameters.Set "SearchBar.Input.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.placeholder.color" -}}
-{{- $parameters.Set "SearchBar.Input.Placeholder.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.transition.duration" -}}
-{{- $parameters.Set "SearchBar.Input.Transition.Duration" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.transition.timingfunction" -}}
-{{- $parameters.Set "SearchBar.Input.Transition.TimingFunction" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.padding.y" -}}
-{{- $parameters.Set "SearchBar.Input.Padding.Y" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.padding.x" -}}
-{{- $parameters.Set "SearchBar.Input.Padding.X" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.border.radius" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Radius" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.border.style" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Style" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.border.color" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.input.border.width" -}}
-{{- $parameters.Set "SearchBar.Input.Border.Width" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.button.color" -}}
-{{- $parameters.Set "SearchBar.Button.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.button.padding.x" -}}
-{{- $parameters.Set "SearchBar.Button.Padding.X" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.searchbar.button.padding.y" -}}
-{{- $parameters.Set "SearchBar.Button.Padding.Y" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.bg.color" -}}
-{{- $parameters.Set "ResultsOverlay.BG.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.color" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.font.size" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Size" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.font.weight" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Weight" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.font.style" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Font.Style" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.terms.color" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.terms.font.size" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Size" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.terms.font.weight" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Weight" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.header.terms.font.style" -}}
-{{- $parameters.Set "ResultsOverlay.Header.Terms.Font.Style" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.link.color" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.link.textdecoration" -}}
-{{- $parameters.Set "ResultsOverlay.Link.TextDecoration" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.link.hover.color" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.link.hover.textdecoration" -}}
-{{- $parameters.Set "ResultsOverlay.Link.Hover.TextDecoration" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.color" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.textdecoration" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.TextDecoration" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.hover.color" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.hover.textdecoration" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Hover.TextDecoration" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.font.size" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Size" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.font.weight" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Weight" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.title.font.style" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Title.Font.Style" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.snippet.color" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Color" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.snippet.font.size" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Size" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.snippet.font.weight" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Weight" . -}}
-{{- end -}}
-{{- with index site.Params "plugin_pse.resultsoverlay.item.snippet.font.style" -}}
-{{- $parameters.Set "ResultsOverlay.Item.Snippet.Font.Style" . -}}
-{{- end -}}
-
-
 /// Search Bar Values
-$search-bar-input-height: {{ $parameters.Get "SearchBar.Input.Height" }};
-$search-bar-input-width: {{ $parameters.Get "SearchBar.Input.Width" }};
-$search-bar-input-color: {{ $parameters.Get "SearchBar.Input.Color" }};
-$search-bar-input-placeholder-color: {{ $parameters.Get "SearchBar.Input.Placeholder.Color" }};
-$search-bar-input-transition-duration: {{ $parameters.Get "SearchBar.Input.Transition.Duration" }};
-$search-bar-input-transition-timing-function: {{ $parameters.Get "SearchBar.Input.Transition.TimingFunction" }};
-$search-bar-input-padding-y: {{ $parameters.Get "SearchBar.Input.Padding.Y" }};
-$search-bar-input-padding-x: {{ $parameters.Get "SearchBar.Input.Padding.X" }};
-$search-bar-input-border-radius: {{ $parameters.Get "SearchBar.Input.Border.Radius" }};
-$search-bar-input-border-style: {{ $parameters.Get "SearchBar.Input.Border.Style" }};
-$search-bar-input-border-color: {{ $parameters.Get "SearchBar.Input.Border.Color" }};
-$search-bar-input-border-width: {{ $parameters.Get "SearchBar.Input.Border.Width" }};
-$search-bar-button-color: {{ $parameters.Get "SearchBar.Button.Color" }};
-$search-bar-button-padding-x: {{ $parameters.Get "SearchBar.Button.Padding.X" }};
-$search-bar-button-padding-y: {{ $parameters.Get "SearchBar.Button.Padding.Y" }};
+$search-bar-input-height: {{ .Scratch.Get "SearchBar.Input.Height" }};
+$search-bar-input-width: {{ .Scratch.Get "SearchBar.Input.Width" }};
+$search-bar-input-color: {{ .Scratch.Get "SearchBar.Input.Color" }};
+$search-bar-input-placeholder-color: {{ .Scratch.Get "SearchBar.Input.Placeholder.Color" }};
+$search-bar-input-transition-duration: {{ .Scratch.Get "SearchBar.Input.Transition.Duration" }};
+$search-bar-input-transition-timing-function: {{ .Scratch.Get "SearchBar.Input.Transition.TimingFunction" }};
+$search-bar-input-padding-y: {{ .Scratch.Get "SearchBar.Input.Padding.Y" }};
+$search-bar-input-padding-x: {{ .Scratch.Get "SearchBar.Input.Padding.X" }};
+$search-bar-input-border-radius: {{ .Scratch.Get "SearchBar.Input.Border.Radius" }};
+$search-bar-input-border-style: {{ .Scratch.Get "SearchBar.Input.Border.Style" }};
+$search-bar-input-border-color: {{ .Scratch.Get "SearchBar.Input.Border.Color" }};
+$search-bar-input-border-width: {{ .Scratch.Get "SearchBar.Input.Border.Width" }};
+$search-bar-button-color: {{ .Scratch.Get "SearchBar.Button.Color" }};
+$search-bar-button-padding-x: {{ .Scratch.Get "SearchBar.Button.Padding.X" }};
+$search-bar-button-padding-y: {{ .Scratch.Get "SearchBar.Button.Padding.Y" }};
 
 /// Results Overlay Values
-$results-overlay-color: {{ $parameters.Get "ResultsOverlay.Color" }};
-$results-overlay-font-size: {{ $parameters.Get "ResultsOverlay.Font.Size" }};
-$results-overlay-bg-color: {{ $parameters.Get "ResultsOverlay.BG.Color" }};
-$results-overlay-header-color: {{ $parameters.Get "ResultsOverlay.Header.Color" }};
-$results-overlay-header-font-size: {{ $parameters.Get "ResultsOverlay.Header.Font.Size" }};
-$results-overlay-header-font-weight: {{ $parameters.Get "ResultsOverlay.Header.Font.Weight" }};
-$results-overlay-header-font-style: {{ $parameters.Get "ResultsOverlay.Header.Font.Style" }};
-$results-overlay-header-terms-color: {{ $parameters.Get "ResultsOverlay.Header.Terms.Color" }};
-$results-overlay-header-terms-font-size: {{ $parameters.Get "ResultsOverlay.Header.Terms.Font.Size" }};
-$results-overlay-header-terms-font-weight: {{ $parameters.Get "ResultsOverlay.Header.Terms.Font.Weight" }};
-$results-overlay-header-terms-font-style: {{ $parameters.Get "ResultsOverlay.Header.Terms.Font.Style" }};
-$results-overlay-link-color: {{ $parameters.Get "ResultsOverlay.Link.Color" }};
-$results-overlay-link-text-decoration: {{ $parameters.Get "ResultsOverlay.Link.TextDecoration" }};
-$results-overlay-link-hover-color: {{ $parameters.Get "ResultsOverlay.Link.Hover.Color" }};
-$results-overlay-link-hover-text-decoration: {{ $parameters.Get "ResultsOverlay.Link.Hover.TextDecoration" }};
-$results-overlay-item-title-color: {{ $parameters.Get "ResultsOverlay.Item.Title.Color" }};
-$results-overlay-item-title-text-decoration: {{ $parameters.Get "ResultsOverlay.Item.Title.TextDecoration" }};
-$results-overlay-item-title-hover-color: {{ $parameters.Get "ResultsOverlay.Item.Title.Hover.Color" }};
-$results-overlay-item-title-hover-text-decoration: {{ $parameters.Get "ResultsOverlay.Item.Title.Hover.TextDecoration" }};
-$results-overlay-item-title-font-size: {{ $parameters.Get "ResultsOverlay.Item.Title.Font.Size" }};
-$results-overlay-item-title-font-weight: {{ $parameters.Get "ResultsOverlay.Item.Title.Font.Weight" }};
-$results-overlay-item-title-font-style: {{ $parameters.Get "ResultsOverlay.Item.Title.Font.Style" }};
-$results-overlay-item-snippet-color: {{ $parameters.Get "ResultsOverlay.Item.Snippet.Color" }};
-$results-overlay-item-snippet-font-size: {{ $parameters.Get "ResultsOverlay.Item.Snippet.Font.Size" }};
-$results-overlay-item-snippet-font-weight: {{ $parameters.Get "ResultsOverlay.Item.Snippet.Font.Weight" }};
-$results-overlay-item-snippet-font-style: {{ $parameters.Get "ResultsOverlay.Item.Snippet.Font.Style" }};
+$results-overlay-color: {{ .Scratch.Get "ResultsOverlay.Color" }};
+$results-overlay-font-size: {{ .Scratch.Get "ResultsOverlay.Font.Size" }};
+$results-overlay-bg-color: {{ .Scratch.Get "ResultsOverlay.BG.Color" }};
+$results-overlay-header-color: {{ .Scratch.Get "ResultsOverlay.Header.Color" }};
+$results-overlay-header-font-size: {{ .Scratch.Get "ResultsOverlay.Header.Font.Size" }};
+$results-overlay-header-font-weight: {{ .Scratch.Get "ResultsOverlay.Header.Font.Weight" }};
+$results-overlay-header-font-style: {{ .Scratch.Get "ResultsOverlay.Header.Font.Style" }};
+$results-overlay-header-terms-color: {{ .Scratch.Get "ResultsOverlay.Header.Terms.Color" }};
+$results-overlay-header-terms-font-size: {{ .Scratch.Get "ResultsOverlay.Header.Terms.Font.Size" }};
+$results-overlay-header-terms-font-weight: {{ .Scratch.Get "ResultsOverlay.Header.Terms.Font.Weight" }};
+$results-overlay-header-terms-font-style: {{ .Scratch.Get "ResultsOverlay.Header.Terms.Font.Style" }};
+$results-overlay-link-color: {{ .Scratch.Get "ResultsOverlay.Link.Color" }};
+$results-overlay-link-text-decoration: {{ .Scratch.Get "ResultsOverlay.Link.TextDecoration" }};
+$results-overlay-link-hover-color: {{ .Scratch.Get "ResultsOverlay.Link.Hover.Color" }};
+$results-overlay-link-hover-text-decoration: {{ .Scratch.Get "ResultsOverlay.Link.Hover.TextDecoration" }};
+$results-overlay-item-title-color: {{ .Scratch.Get "ResultsOverlay.Item.Title.Color" }};
+$results-overlay-item-title-text-decoration: {{ .Scratch.Get "ResultsOverlay.Item.Title.TextDecoration" }};
+$results-overlay-item-title-hover-color: {{ .Scratch.Get "ResultsOverlay.Item.Title.Hover.Color" }};
+$results-overlay-item-title-hover-text-decoration: {{ .Scratch.Get "ResultsOverlay.Item.Title.Hover.TextDecoration" }};
+$results-overlay-item-title-font-size: {{ .Scratch.Get "ResultsOverlay.Item.Title.Font.Size" }};
+$results-overlay-item-title-font-weight: {{ .Scratch.Get "ResultsOverlay.Item.Title.Font.Weight" }};
+$results-overlay-item-title-font-style: {{ .Scratch.Get "ResultsOverlay.Item.Title.Font.Style" }};
+$results-overlay-item-snippet-color: {{ .Scratch.Get "ResultsOverlay.Item.Snippet.Color" }};
+$results-overlay-item-snippet-font-size: {{ .Scratch.Get "ResultsOverlay.Item.Snippet.Font.Size" }};
+$results-overlay-item-snippet-font-weight: {{ .Scratch.Get "ResultsOverlay.Item.Snippet.Font.Weight" }};
+$results-overlay-item-snippet-font-style: {{ .Scratch.Get "ResultsOverlay.Item.Snippet.Font.Style" }};
 
 :root {
   
