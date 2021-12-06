@@ -192,7 +192,7 @@ function insertSearchBar() {
   button.appendChild(svg)      
   
 {{ if $Collapsible }}
-  
+  /* Configure button for expanding and collapsing the input */
   const IS_EXPANDED = Symbol()
   
   const toggleInput = () => {
@@ -236,6 +236,8 @@ function insertSearchBar() {
   
 {{ else }}
   
+/* Disable the button */
+
   button.enabled = false
 
 {{ end }}
