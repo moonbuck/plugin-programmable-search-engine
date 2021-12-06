@@ -38,17 +38,14 @@ const INPUT_WIDTH        = '--pse-search-bar-input-width'
 const INPUT_PADDING_X    = '--pse-search-bar-input-padding-x'
 const INPUT_BORDER_STYLE = '--pse-search-bar-input-border-style'
 
-
 // Property symbols
 const WIDTH          = Symbol(INPUT_WIDTH)
 const PADDING_X      = Symbol(INPUT_PADDING_X)
 const BORDER_STYLE   = Symbol(INPUT_BORDER_STYLE)
 
-const IS_EXPANDED    = Symbol()
 const EVENT_HANDLED  = Symbol()
 
 const INPUT_ELEMENT    = Symbol(SEARCH_BAR_INPUT_ID)
-const BUTTON_ELEMENT   = Symbol(SEARCH_BAR_BUTTON_ID)
 const OVERLAY_ELEMENT  = Symbol(RESULTS_OVERLAY_ID)
 const ARTICLE_ELEMENT  = Symbol(RESULTS_ARTICLE_ID)
 const TERMS_ELEMENT    = Symbol(RESULTS_SEARCH_TERMS_ID)
@@ -75,14 +72,6 @@ document.addEventListener('DOMContentLoaded',() => {
   });
   
 })
-
-/* 
-  Invokes a search for the current input value.
-*/
-function executeSearch() {
-  document[INPUT_ELEMENT].blur()
-  search(document[INPUT_ELEMENT].value, 1)
-}
 
 /* 
   Fetch results for the specified query with the specified index offset
@@ -115,7 +104,9 @@ function search(q, start) {
     items.map(result => resultListItem(result))
          .forEach(listItem => list.appendChild(listItem))
     
-    const loadPage = start => event => event[EVENT_HANDLED] = true || search(searchTerms, start)
+    const loadPage = start => {
+      event => event[EVENT_HANDLED] = true || search(searchTerms, start)
+    }
              
     if (previousPage) {
       document[PREVIOUS_ELEMENT].hidden = false
@@ -156,10 +147,38 @@ function insertSearchBar() {
   let searchBar = document.createElement('DIV')
   searchBar.id = SEARCH_BAR_ID
   container.appendChild(searchBar)      
+
+  let input = document.createElement('INPUT')
+  let button = document.createElement('BUTTON')
+      
+  const IS_EXPANDED    = Symbol()
+  
+  const toggleInput = () => {
+        
+    if (button[IS_EXPANDED]) {
+      // Collapse the input
+      
+      input.style.setProperty(INPUT_WIDTH, 0)
+      input.style.setProperty(INPUT_PADDING_X, 0)
+      input.style.setProperty(INPUT_BORDER_STYLE, 'none')
+      button.setAttribute('aria-expanded', false)
+      button[IS_EXPANDED] = false
+    }
+    
+    else {
+      // Expand the input
+      
+      input.style.setProperty(INPUT_WIDTH, input[WIDTH])
+      input.style.setProperty(INPUT_PADDING_X, input[PADDING_X])
+      input.style.setProperty(INPUT_BORDER_STYLE, input[BORDER_STYLE])
+      button.setAttribute('aria-expanded', true)
+      button[IS_EXPANDED] = true
+    }
+    
+  }
   
   let computedStyle = getComputedStyle(container)
   
-  let input = document.createElement('INPUT')
   input.type = 'search'
   input.id = SEARCH_BAR_INPUT_ID
   input.placeholder = PLACEHOLDER_TEXT
@@ -171,11 +190,11 @@ function insertSearchBar() {
   input.style.setProperty(INPUT_PADDING_X, 0)
   input[BORDER_STYLE] = computedStyle.getPropertyValue(INPUT_BORDER_STYLE)
   input.style.setProperty(INPUT_BORDER_STYLE, 'none')
-  input.addEventListener('keyup', ({key}) => key === 'Enter' && executeSearch())
+  input.onkeyup = {key} => key === 'Enter' && input.blur() || search(input.value, 1)
+  input.onblur = toggleInput
   searchBar.appendChild(input)
   document[INPUT_ELEMENT] = input
     
-  let button = document.createElement('BUTTON')
   button.id = SEARCH_BAR_BUTTON_ID
   button.type = 'button'
   button.onclick = toggleInput
@@ -183,9 +202,6 @@ function insertSearchBar() {
   button[IS_EXPANDED] = false
   button.setAttribute('aria-controls', SEARCH_BAR_INPUT_ID)
   searchBar.appendChild(button)
-  document[BUTTON_ELEMENT] = button
-  
-  input.onblur = toggleInput
   
   let svg = document.createElement('SVG')
   svg.innerHTML = `\
@@ -217,33 +233,6 @@ function insertSearchBar() {
  
 }
 
-function toggleInput() {
-    
-  let button = document[BUTTON_ELEMENT]
-  let input = document[INPUT_ELEMENT]
-  
-  if (button[IS_EXPANDED]) {
-    // Collapse the input
-    
-    input.style.setProperty(INPUT_WIDTH, 0)
-    input.style.setProperty(INPUT_PADDING_X, 0)
-    input.style.setProperty(INPUT_BORDER_STYLE, 'none')
-    button.setAttribute('aria-expanded', false)
-    button[IS_EXPANDED] = false
-  }
-  
-  else {
-    // Expand the input
-    
-    input.style.setProperty(INPUT_WIDTH, input[WIDTH])
-    input.style.setProperty(INPUT_PADDING_X, input[PADDING_X])
-    input.style.setProperty(INPUT_BORDER_STYLE, input[BORDER_STYLE])
-    button.setAttribute('aria-expanded', true)
-    button[IS_EXPANDED] = true
-  }
-  
- }
-  
 /*
   Generates the results overlay and inserts it at the body head
 */
