@@ -1,3 +1,6 @@
+{{- /* Hugo variables */ -}}
+{{- $Collapsible := .Scratch.Get "SearchBar.Input.Collapsible" -}}
+
 /* Constants */
 
 // Plugin parameter values
@@ -5,7 +8,6 @@ const CX               = '{{ .Scratch.Get "CX" }}'
 const API_KEY          = '{{ .Scratch.Get "APIKey" }}'
 const CONTAINER_ID     = '{{ .Scratch.Get "SearchBar.ContainerID" }}'
 const PLACEHOLDER_TEXT = '{{ .Scratch.Get "SearchBar.Input.Placeholder.Text" }}'
-const COLLAPSIBLE      = '{{ .Scratch.Get "SearchBar.Input.Collapsible" }}'
 const INITIAL_STATE    = '{{ .Scratch.Get "SearchBar.Input.InitialState" }}'
 
 // HTML element IDs
@@ -59,11 +61,9 @@ const NEXT_ELEMENT     = Symbol(RESULTS_NEXT_PAGE_ID)
 */
 document.addEventListener('DOMContentLoaded',() => {
   
-  const url = 'https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest'
-  
   gapi?.load('client', () => {
       gapi.client.setApiKey(API_KEY);
-      gapi.client.load(url)
+      gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
       .then(() => {
         console.log('GAPI client loaded')
         insertSearchBar()
@@ -149,9 +149,51 @@ function insertSearchBar() {
   container.appendChild(searchBar)      
 
   let input = document.createElement('INPUT')
+  input.type = 'search'
+  input.id = SEARCH_BAR_INPUT_ID
+  input.placeholder = PLACEHOLDER_TEXT
+  input.name = 'pse'
+  input.setAttribute('aria-label', 'site search')
+  input.onkeyup = ({key}) => key === 'Enter' && (input.blur() || search(input.value, 1))
+  searchBar.appendChild(input)
+  document[INPUT_ELEMENT] = input
+  
   let button = document.createElement('BUTTON')
-      
-  const IS_EXPANDED    = Symbol()
+  button.id = SEARCH_BAR_BUTTON_ID
+  button.type = 'button'
+  searchBar.appendChild(button)
+
+  let svg = document.createElement('SVG')
+  svg.innerHTML = `\
+    <svg aria-hidden='true' 
+         focusable='false' 
+         data-prefix='fad' 
+         data-icon='magnifying-glass' 
+         class='svg-inline--fa fa-magnifying-glass' 
+         role='img' 
+         xmlns='http://www.w3.org/2000/svg' 
+         viewBox='0 0 512 512'>
+      <g class='fa-duotone-group'>
+        <path class='fa-secondary' 
+              fill='currentColor' 
+              d='M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 \
+                 416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 \
+                 0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 \
+                 128 128C335.1 278.6 278.6 336 207.1 336z'>
+        </path>
+        <path class='fa-primary' 
+              fill='currentColor' 
+              d='M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 \
+                 56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 \
+                 484.7 515.9 459.3 500.3 443.7z'>
+        </path>
+      </g>
+    </svg>`
+  button.appendChild(svg)      
+  
+{{ if $Collapsible }}
+  
+  const IS_EXPANDED = Symbol()
   
   const toggleInput = () => {
         
@@ -179,58 +221,25 @@ function insertSearchBar() {
   
   let computedStyle = getComputedStyle(container)
   
-  input.type = 'search'
-  input.id = SEARCH_BAR_INPUT_ID
-  input.placeholder = PLACEHOLDER_TEXT
-  input.name = 'pse'
-  input.setAttribute('aria-label', 'site search')
   input[WIDTH] = computedStyle.getPropertyValue(INPUT_WIDTH)
   input.style.setProperty(INPUT_WIDTH, 0)
   input[PADDING_X] = computedStyle.getPropertyValue(INPUT_PADDING_X)
   input.style.setProperty(INPUT_PADDING_X, 0)
   input[BORDER_STYLE] = computedStyle.getPropertyValue(INPUT_BORDER_STYLE)
   input.style.setProperty(INPUT_BORDER_STYLE, 'none')
-  input.onkeyup = {key} => key === 'Enter' && input.blur() || search(input.value, 1)
   input.onblur = toggleInput
-  searchBar.appendChild(input)
-  document[INPUT_ELEMENT] = input
-    
-  button.id = SEARCH_BAR_BUTTON_ID
-  button.type = 'button'
+  
   button.onclick = toggleInput
   button.setAttribute('aria-expanded', false)
   button[IS_EXPANDED] = false
   button.setAttribute('aria-controls', SEARCH_BAR_INPUT_ID)
-  searchBar.appendChild(button)
   
-  let svg = document.createElement('SVG')
-  svg.innerHTML = `\
-<svg aria-hidden='true' 
-     focusable='false' 
-     data-prefix='fad' 
-     data-icon='magnifying-glass' 
-     class='svg-inline--fa fa-magnifying-glass' 
-     role='img' 
-     xmlns='http://www.w3.org/2000/svg' 
-     viewBox='0 0 512 512'>
-  <g class='fa-duotone-group'>
-    <path class='fa-secondary' 
-          fill='currentColor' 
-          d='M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 \
-             416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 \
-             0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 \
-             128 128C335.1 278.6 278.6 336 207.1 336z'>
-    </path>
-    <path class='fa-primary' 
-          fill='currentColor' 
-          d='M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 \
-             56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 \
-             484.7 515.9 459.3 500.3 443.7z'>
-    </path>
-  </g>
-</svg>`
-  button.appendChild(svg)
- 
+{{ else }}
+  
+  button.enabled = false
+
+{{ end }}
+
 }
 
 /*
@@ -240,7 +249,7 @@ function insertResultsOverlay() {
   
   let overlay = document.createElement('DIV')
   overlay.id = RESULTS_OVERLAY_ID
-  overlay.onclick = event => !event[EVENT_HANDLED] && overlay.style.display = 'none'
+  overlay.onclick = event => !event[EVENT_HANDLED] && (overlay.style.display = 'none')
   document[OVERLAY_ELEMENT] = overlay
   
   let article = document.createElement('ARTICLE')
