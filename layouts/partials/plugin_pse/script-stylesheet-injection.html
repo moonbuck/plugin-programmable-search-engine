@@ -1,8 +1,8 @@
 {{- /* Load parameter values into page scratch */ -}}
-{{- partial "resolve-parameter-values.html" . -}}
+{{- partial "plugin_pse/resolve-parameter-values.html" . -}}
 
 {{- $CX := .Scratch.Get "CX" -}}
-{{- $APIKey := .Scratch.Get "APIKey"  -}}
+{{- $APIKey := .Scratch.Get "APIKey" -}}
 {{- $MinifyScript := .Scratch.Get "Build.MinifyScript" -}}
 {{- $Fingerprint := .Scratch.Get "Build.Fingerprint" -}}
 {{- $SassOutput := .Scratch.Get "Build.SassOutput" -}}
@@ -18,7 +18,7 @@
 {{- $target := path.Join "assets" $source -}}
 
 {{- $script := resources.Get $source | resources.ExecuteAsTemplate $target . -}}
-{{- if MinifyScript }}{{ $script = $script | minify }}{{ end -}}
+{{- if $MinifyScript }}{{ $script = $script | minify }}{{ end -}}
 {{- if $Fingerprint }}{{ $script = $script | fingerprint }}{{ end -}}
 
 <script src="{{ $script.Permalink }}"></script>

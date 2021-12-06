@@ -4,7 +4,7 @@
   "description": "A plugin for injecting Google's programmable search engine",
   "includes": [
     "plugin_pse/page-map-injection.html",
-    "plugin_pse/programmable-search-engine-script-injection.html"
+    "plugin_pse/script-stylesheet-injection.html"
     ],
    "fields": [
       {
