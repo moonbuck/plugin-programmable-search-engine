@@ -3,7 +3,7 @@
   "title": "Moondeer's Programmable Search Engine",
   "description": "A plugin for injecting Google's programmable search engine",
   "includes": [
-    "plugin_pse/version.html"
+    "plugin_pse/version.html",
     "plugin_pse/page-map-injection.html",
     "plugin_pse/script-stylesheet-injection.html"
     ],
