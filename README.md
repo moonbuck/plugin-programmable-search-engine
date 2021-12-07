@@ -181,9 +181,9 @@ Did it work? Time will tell. I assume we have to wait for Google to re-crawl the
 
 <dl>
 <dt>CX</dt>
-<dd>The search engine identifier (*Required*).</dd>
+<dd>The search engine identifier (<i>Required</i>).</dd>
 <dt>APIKey</dt>
-<dd>The search engine API key (*Required*).</dd>
+<dd>The search engine API key (<i>Required</i>).</dd>
 </dl>
 
 ### Build options
