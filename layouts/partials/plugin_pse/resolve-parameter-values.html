@@ -5,7 +5,7 @@
 {{- .Scratch.Set "Build.SassOutput" "compressed" -}}
 {{- .Scratch.Set "Build.MinifiyScript" false -}}
 {{- .Scratch.Set "SearchBar.ContainerID" "pse-container" -}}
-{{- .Scratch.Set "SearchBar.Input.Collapsible" "true" -}}
+{{- .Scratch.Set "SearchBar.Input.Collapsible" true -}}
 {{- .Scratch.Set "SearchBar.Input.InitialState" "collapsed" -}}
 {{- .Scratch.Set "SearchBar.Input.Height" "auto" -}}
 {{- .Scratch.Set "SearchBar.Input.Width" "300px" -}}
@@ -50,7 +50,6 @@
 {{- .Scratch.Set "ResultsOverlay.Item.Snippet.Font.Weight" "inherit" -}}
 {{- .Scratch.Set "ResultsOverlay.Item.Snippet.Font.Style" "inherit" -}}
 
-
 {{- /* Overwrite default values with any values found in a config file */ -}}
 {{- with site.Data.plugin_pse_config | default site.Data.plugin_pse.config -}}
 {{- with .CX -}}
@@ -65,14 +64,22 @@
 {{- with .Build.SassOutput -}}
 {{- $.Scratch.Set "Build.SassOutput" . -}}
 {{- end -}}
+{{- if (isset .Build "MinifiyScript") -}}
 {{- with .Build.MinifyScript -}}
-{{- $.Scratch.Set "Build.MinifyScript" . -}}
+{{- $.Scratch.Set "Build.MinifyScript" true -}}
+{{- else -}}
+{{- $.Scratch.Set "Build.MinifyScript" false -}}
+{{- end -}}
 {{- end -}}
 {{- with .SearchBar.ContainerID -}}
 {{- $.Scratch.Set "SearchBar.ContainerID" . -}}
 {{- end -}}
+{{- if (isset .SearchBar.Input "Collapsible") -}}
 {{- with .SearchBar.Input.Collapsible -}}
-{{- $.Scratch.Set "SearchBar.Input.Collapsible" . -}}
+{{- $.Scratch.Set "SearchBar.Input.Collapsible" true -}}
+{{- else -}}
+{{- $.Scratch.Set "SearchBar.Input.Collapsible" false -}}
+{{- end -}}
 {{- end -}}
 {{- with .SearchBar.Input.InitialState -}}
 {{- $.Scratch.Set "SearchBar.Input.InitialState" . -}}
@@ -215,14 +222,22 @@
 {{- with index site.Params "plugin_pse.build.sassoutput" -}}
 {{- $.Scratch.Set "Build.SassOutput" . -}}
 {{- end -}}
+{{- if (isset site.Params "plugin_pse.build.minifyscript") -}}
 {{- with index site.Params "plugin_pse.build.minifyscript" -}}
-{{- $.Scratch.Set "Build.MinifyScript" . -}}
+{{- $.Scratch.Set "Build.MinifyScript" true -}}
+{{- else -}}
+{{- $.Scratch.Set "Build.MinifyScript" false -}}
+{{- end -}}
 {{- end -}}
 {{- with index site.Params "plugin_pse.searchbar.containerid" -}}
 {{- $.Scratch.Set "SearchBar.ContainerID" . -}}
 {{- end -}}
+{{- if (isset site.Params "plugin_pse.searchbar.input.collapsible") -}}
 {{- with index site.Params "plugin_pse.searchbar.input.collapsible" -}}
-{{- $.Scratch.Set "SearchBar.Input.Collapsible" . -}}
+{{- $.Scratch.Set "SearchBar.Input.Collapsible" true -}}
+{{- else -}}
+{{- $.Scratch.Set "SearchBar.Input.Collapsible" false -}}
+{{- end -}}
 {{- end -}}
 {{- with index site.Params "plugin_pse.searchbar.input.initialstate" -}}
 {{- $.Scratch.Set "SearchBar.Input.InitialState" . -}}

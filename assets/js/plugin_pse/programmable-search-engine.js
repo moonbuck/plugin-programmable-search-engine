@@ -1,14 +1,12 @@
 {{- /* Hugo variables */ -}}
 {{- $Collapsible := .Scratch.Get "SearchBar.Input.Collapsible" -}}
+{{- $InitialState := .Scratch.Get "SearchBar.Input.InitialState" -}}
+{{- $CX := .Scratch.Get "CX" -}}
+{{- $APIKey := .Scratch.Get "APIKey" -}}
+{{- $ContainerID := .Scratch.Get "SearchBar.ContainerID" -}}
+{{- $PlaceholderText := .Scratch.Get "SearchBar.Input.Placeholder.Text" -}}
 
 /* Constants */
-
-// Plugin parameter values
-const CX               = '{{ .Scratch.Get "CX" }}'
-const API_KEY          = '{{ .Scratch.Get "APIKey" }}'
-const CONTAINER_ID     = '{{ .Scratch.Get "SearchBar.ContainerID" }}'
-const PLACEHOLDER_TEXT = '{{ .Scratch.Get "SearchBar.Input.Placeholder.Text" }}'
-const INITIAL_STATE    = '{{ .Scratch.Get "SearchBar.Input.InitialState" }}'
 
 // HTML element IDs
 const SEARCH_BAR_ID            = 'pse-search-bar'
@@ -45,7 +43,7 @@ const WIDTH          = Symbol(INPUT_WIDTH)
 const PADDING_X      = Symbol(INPUT_PADDING_X)
 const BORDER_STYLE   = Symbol(INPUT_BORDER_STYLE)
 
-const EVENT_HANDLED  = Symbol()
+const EVENT_HANDLED  = Symbol('eventHandled')
 
 const INPUT_ELEMENT    = Symbol(SEARCH_BAR_INPUT_ID)
 const OVERLAY_ELEMENT  = Symbol(RESULTS_OVERLAY_ID)
@@ -62,7 +60,7 @@ const NEXT_ELEMENT     = Symbol(RESULTS_NEXT_PAGE_ID)
 document.addEventListener('DOMContentLoaded',() => {
   
   gapi?.load('client', () => {
-      gapi.client.setApiKey(API_KEY);
+      gapi.client.setApiKey('{{ $APIKey }}');
       gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
       .then(() => {
         console.log('GAPI client loaded')
@@ -105,7 +103,10 @@ function search(q, start) {
          .forEach(listItem => list.appendChild(listItem))
     
     const loadPage = start => {
-      event => event[EVENT_HANDLED] = true || search(searchTerms, start)
+      return event => {
+        event[EVENT_HANDLED] = true
+        search(searchTerms, start)
+      }
     }
              
     if (previousPage) {
@@ -131,7 +132,7 @@ function search(q, start) {
   
   // Invoke the search with above handler
   gapi?.client?.search.cse
-    .list({'cx': CX, 'q': `${q}`, 'start': start})
+    .list({'cx': '{{ $CX }}', 'q': `${q}`, 'start': start})
     .then(response => handler(response), err => console.log(err))
     
 }
@@ -142,7 +143,7 @@ function search(q, start) {
 */ 
 function insertSearchBar() {
   
-  let container = document.getElementById(CONTAINER_ID)
+  let container = document.getElementById('{{ $ContainerID }}')
   
   let searchBar = document.createElement('DIV')
   searchBar.id = SEARCH_BAR_ID
@@ -151,7 +152,7 @@ function insertSearchBar() {
   let input = document.createElement('INPUT')
   input.type = 'search'
   input.id = SEARCH_BAR_INPUT_ID
-  input.placeholder = PLACEHOLDER_TEXT
+  input.placeholder = '{{ $PlaceholderText }}'
   input.name = 'pse'
   input.setAttribute('aria-label', 'site search')
   input.onkeyup = ({key}) => key === 'Enter' && (input.blur() || search(input.value, 1))
@@ -222,23 +223,33 @@ function insertSearchBar() {
   let computedStyle = getComputedStyle(container)
   
   input[WIDTH] = computedStyle.getPropertyValue(INPUT_WIDTH)
-  input.style.setProperty(INPUT_WIDTH, 0)
   input[PADDING_X] = computedStyle.getPropertyValue(INPUT_PADDING_X)
-  input.style.setProperty(INPUT_PADDING_X, 0)
   input[BORDER_STYLE] = computedStyle.getPropertyValue(INPUT_BORDER_STYLE)
-  input.style.setProperty(INPUT_BORDER_STYLE, 'none')
   input.onblur = toggleInput
-  
   button.onclick = toggleInput
+  button.setAttribute('aria-controls', SEARCH_BAR_INPUT_ID)
+  
+  {{ if not (eq (lower $InitialState) "expanded") }}
+  
   button.setAttribute('aria-expanded', false)
   button[IS_EXPANDED] = false
-  button.setAttribute('aria-controls', SEARCH_BAR_INPUT_ID)
+  input.style.setProperty(INPUT_WIDTH, 0)
+  input.style.setProperty(INPUT_PADDING_X, 0)
+  input.style.setProperty(INPUT_BORDER_STYLE, 'none')
+  
+  {{ else }}
+  
+  button.setAttribute('aria-expanded', true)
+  button[IS_EXPANDED] = true
+  
+  {{ end }}
   
 {{ else }}
   
 /* Disable the button */
 
   button.enabled = false
+  button.setAttribute('aria-expanded', true)
 
 {{ end }}
 
