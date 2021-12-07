@@ -59,55 +59,53 @@ The response to a custom search request is detailed [here](https://developers.go
 <dl>
 <dt>queries</dt>
 <dd><code>queries</code> contains 1 - 3 collections of metadata that amount to a glorified page index. There will always be an entry for <i>request</i>, this amounts to the current page. Each collection contains a <i>startIndex</i> value. I did a whole thing where I generated numbered navigation links for the pages at the bottom (you know, as you do); but, it turns out that the f$&king <i>totalResults</i> value is dynamic for some f$&king reason and displaying indices as estimates is horsesh$te (when I checked the <i>Public URL</i> page to see if Google, itself, could manufacture accurate indices, I found they could not. Run through your result pages, if you like swing-and-a-miss-indices, I will put them back). Anyway, all we really care about (seeing as we know the search terms), is that <code>startIndex</code> and the abscence or presence of <i>previousPage</i> and <i>nextPage</i> entries (and their <i>startIndex</i> values). If I’ve missed something you find to be relevant, feel free to share.
+<div class="highlight highlight-source-json position-relative overflow-auto"><pre><span class="pl-ent">"queries"</span>: {
+  <span class="pl-ent">"previousPage"</span>: [{
+    <span>…</span>
+    <span class="pl-ent">"startIndex"</span>: <span>integer,</span>
+    <span>…</span>
+  }],
+  <span class="pl-ent">"request"</span>: [{
+    <span>…</span>
+    <span class="pl-ent">"startIndex"</span>: <span>integer,</span>
+    <span>…</span>
+  }],
+  <span class="pl-ent">"nextPage"</span>: [{
+    <span>…</span>
+    <span class="pl-ent">"startIndex"</span>: <span>integer,</span>
+    <span>…</span>
+  }]
+}</pre>
+</div>
 </dd>
 
-```json
-"queries": {
-  "previousPage": [{
-    …
-    "startIndex": integer,
-    …
-  }],
-  "request": [{
-    …
-    "startIndex": integer,
-    …
-  }],
-  "nextPage": [{
-    …
-    "startIndex": integer,
-    …
-  }]
-}
-```
-
 <dt>items</dt>
-<dd>The <code>items</code> array holds the search <a href='https://developers.google.com/custom-search/v1/reference/rest/v1/Search#result'>result</a> items corresponding to <code>queries.request</code>. The bits the plugin currently utilizes are these:</dd>
-
-```json
-{
-  …
-  "title": string,
-  …
-  "link": string,
-  "displayLink": string,
-  …
-  "htmlSnippet": string,
-  …
-  "pagemap": {
-    f$&kin-random
+<dd>The <code>items</code> array holds the search <a href='https://developers.google.com/custom-search/v1/reference/rest/v1/Search#result'>result</a> items corresponding to <code>queries.request</code>. The bits the plugin currently utilizes are these:
+<div class="highlight highlight-source-json position-relative overflow-auto"><pre>{
+  <span>…</span>
+  <span class="pl-ent">"title"</span>: <span>string,</span>
+  <span>…</span>
+  <span class="pl-ent">"link"</span>: <span>string,</span>
+  <span class="pl-ent">"displayLink"</span>: <span>string,</span>
+  <span>…</span>
+  <span class="pl-ent">"htmlSnippet"</span>: <span>string,</span>
+  <span>…</span>
+  <span class="pl-ent">"pagemap"</span>: {
+    <span>f$&amp;kin-random</span>
   },
-  …
-}
-```
+  <span>…</span>
+}</pre>
+</div>
 
 It’s the top four properties that compose the bulk of the displayed item. For result items without an image, they compose it entirely.
 
-![result-without-thumbnail](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/result-without-thumbnail.jpeg)
+<img src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/result-without-thumbnail.jpeg" />
 
-None of my result items have ever had an *image* entry at the top level as depicted in the API (If y’all end up with an entry, holler, and I’ll add checks for *image* property). The thumbnail images are pulled out of that *pagemap* entry. This collection of page metadata will be influenced by Micro.blog theme and Micro.blog plugin installations. The result items I have received consistently contain an entry at `pagemap.cse_thumbnail[0]` (yeah, they wrap everything in a f$&kin’ array, no idea why). The plugin looks for this entry and when it finds it you get a thumbnail image to along with the other stuffs.
+None of my result items have ever had an <i>image</i> entry at the top level as depicted in the API (If y’all end up with an entry, holler, and I’ll add checks for <i>image</i> property). The thumbnail images are pulled out of that <i>pagemap</i> entry. This collection of page metadata will be influenced by Micro.blog theme and Micro.blog plugin installations. The result items I have received consistently contain an entry at <code>pagemap.cse_thumbnail[0]</code> (yeah, they wrap everything in a f$&kin’ array, no idea why). The plugin looks for this entry and when it finds it you get a thumbnail image to along with the other stuffs.
 
-![result-with-thumbnail](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/result-with-thumbnail.jpeg)
+<img src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/result-with-thumbnail.jpeg" />
+</dd>
+</dl>
 
 ### So What the F$&k is the PageMap?
 Well, it turns out that a [PageMap](https://developers.google.com/custom-search/docs/structured_data#pagemaps "PageMaps") is yet another f$&kin’ form of structured data used by Google. It consists of a butt-ugly chunk of XML injected into the page `<head>` inside an HTML comment.
