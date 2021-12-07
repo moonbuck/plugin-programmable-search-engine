@@ -8,25 +8,25 @@ A plugin for [Micro.blog](https://micro.blog "Micro.blog") for adding a site sea
 
 Assuming you already have or are willing to go ahead and create an account with Google (which I assume is a necessary component to creating the programmable search engine), follow these steps to configure yourself a search engine.
 
-1. Navigate to  the [landing page](https://programmablesearchengine.google.com "programmable search engine") and click the *Get Started* button. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/get-started.png" description="1. Navigate to  the <a href='https://programmablesearchengine.google.com'>landing page</a> and click the <i>Get Started</i> button." link-style="width:260px;height:auto" >}}
+1. Navigate to  the [landing page](https://programmablesearchengine.google.com "programmable search engine") and click the *Get Started* button. ![get-started](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/get-started.png)
 
-2. Click the *Add* button to create a new instance. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/add.png" description="2. Click the <i>Add</i> button to create a new instance." link-style="width:260px;height:auto" >}}
+2. Click the *Add* button to create a new instance. ![add](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/add.png)
 
-3. Enter your site address (I believe I went with `*.moondeer.blog/*`) and click *CREATE*. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/create.png" description="3. Enter your site address (I believe I went with <code>*.moondeer.blog/*</code>) and click <i>CREATE</i>." link-style="width:260px;height:auto" >}}
+3. Enter your site address (I believe I went with `*.moondeer.blog/*`) and click *CREATE*. ![](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/create.png)
 
-4. Click on *Control Panel* to get to the configuration. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/control-panel.png" description="4. Click on <i>Control Panel</i> to get to the configuration." link-style="width:260px;height:auto" >}}
+4. Click on *Control Panel* to get to the configuration. ![control-panel](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/control-panel.png)
 
-5. Here’s the first value we need, the *Search engine ID*, this is the value referred to every else as `cx`. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/search-engine-id.png" description="5. Here’s the first value we need, the <i>Search engine ID</i>, this is the value referred to every else as <code>cx</code>." link-style="width:260px;height:auto" >}}
+5. Here’s the first value we need, the *Search engine ID*, this is the value referred to every else as `cx`. ![search-engine-id](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/search-engine-id.png)
 
-6. Now, scroll down a bit and find the *Programmatic Access* section. Click the *Get Started* button to the right of *Custom JSON Search API*.  {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/custom-search-api.png" description="6. Now, scroll down a bit and find the <i>Programmatic Access</i> section. Click the *Get Started* button to the right of <i>Custom JSON Search API</i>." link-style="width:260px;height:auto" >}}
+6. Now, scroll down a bit and find the *Programmatic Access* section. Click the *Get Started* button to the right of *Custom JSON Search API*.  ![custom-search-api](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/custom-search-api.png)
 
-7. Find and click the *Get a Key* button. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/get-a-key.png" description="7. Find and click the <i>Get a Key</i> button." link-style="width:260px;height:auto" >}}
+7. Find and click the *Get a Key* button. ![get-a-key](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/get-a-key.png)
 
-8. Select the *+ Create a new project* option. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/create-a-new-project.png" description="8. Select the <i>+ Create a new project</i> option." link-style="width:260px;height:auto" >}}
+8. Select the *+ Create a new project* option. ![create-a-new-project](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/create-a-new-project.png)
 
-9. Pick a project name and click *NEXT*. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/project-name.png" description="9. Pick a project name and click <i>NEXT</i>." link-style="width:260px;height:auto" >}}
+9. Pick a project name and click *NEXT*. ![project-name](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/project-name.png)
 
-10. And here’s value number two, the API key. {{< lightbox src="https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/your-api-key.png" description="10. And here’s value number two, the API key." link-style="width:260px;height:auto" >}}
+10. And here’s value number two, the API key. ![your-api-key](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/your-api-key.png)
 
 ## Test Driving your Engine
 
@@ -56,10 +56,11 @@ The response to a custom search request is detailed [here](https://developers.go
 
 ### Relevant Response Bits
 
-queries
-: `queries` contains 1 - 3 collections of metadata that amount to a glorified page index. There will always be an entry for *request*, this amounts to the current page. Each collection contains a *startIndex* value. I did a whole thing where I generated numbered navigation links for the pages at the bottom (you know, as you do); but, it turns out that the f$&king *totalResults* value is dynamic for some f$&king reason and displaying indices as estimates is horsesh$te (when I checked the *Public URL* page to see if Google, itself, could manufacture accurate indices, I found they could not. Run through your result pages, if you like swing-and-a-miss-indices, I will put them back). Anyway, all we really care about (seeing as we know the search terms), is that `startIndex` and the abscence or presence of *previousPage* and *nextPage* entries (and their `startIndex` values). If I’ve missed something you find to be relevant, feel free to share.
+<dl>
+<dt>queries</dt>
+<dd><code>queries</code> contains 1 - 3 collections of metadata that amount to a glorified page index. There will always be an entry for <i>request</i>, this amounts to the current page. Each collection contains a <i>startIndex</i> value. I did a whole thing where I generated numbered navigation links for the pages at the bottom (you know, as you do); but, it turns out that the f$&king <i>totalResults</i> value is dynamic for some f$&king reason and displaying indices as estimates is horsesh$te (when I checked the <i>Public URL</i> page to see if Google, itself, could manufacture accurate indices, I found they could not. Run through your result pages, if you like swing-and-a-miss-indices, I will put them back). Anyway, all we really care about (seeing as we know the search terms), is that <code>startIndex</code> and the abscence or presence of <i>previousPage</i> and <i>nextPage</i> entries (and their <i>startIndex</i> values). If I’ve missed something you find to be relevant, feel free to share.
+</dd>
 
-{{< language json >}}
 ```json
 "queries": {
   "previousPage": [{
@@ -79,12 +80,10 @@ queries
   }]
 }
 ```
-{{< /language >}}
 
-items
-: The `items` array holds the search [result](https://developers.google.com/custom-search/v1/reference/rest/v1/Search#result "Result") items corresponding to `queries.request`. The bits the plugin currently utilizes are these:
+<dt>items</dt>
+<dd>The <code>items</code> array holds the search <a href='https://developers.google.com/custom-search/v1/reference/rest/v1/Search#result'>result</a> items corresponding to <code>queries.request</code>. The bits the plugin currently utilizes are these:</dd>
 
-{{< language json >}}
 ```json
 {
   …
@@ -101,7 +100,6 @@ items
   …
 }
 ```
-{{< /language >}}
 
 It’s the top four properties that compose the bulk of the displayed item. For result items without an image, they compose it entirely.
 
@@ -114,7 +112,6 @@ None of my result items have ever had an *image* entry at the top level as depic
 ### So What the F$&k is the PageMap?
 Well, it turns out that a [PageMap](https://developers.google.com/custom-search/docs/structured_data#pagemaps "PageMaps") is yet another f$&kin’ form of structured data used by Google. It consists of a butt-ugly chunk of XML injected into the page `<head>` inside an HTML comment.
 
-{{< language html >}}
 ```html
 <html>
   <head>
@@ -145,11 +142,9 @@ Well, it turns out that a [PageMap](https://developers.google.com/custom-search/
    ...
 </html>
 ```
-{{< /language >}}
 
 Can we utilize PageMaps to inject precisely that data which every Micro.blogger using this plugin would want to have availble for display when viewing their search results? Jury is  still out. I did construct a partial that injects such an eye sore. For a post with all the fixings it generates something kinda like:
 
-{{< language xml >}}
 ```xml
 <!--
 <PageMap>
@@ -177,7 +172,6 @@ Can we utilize PageMaps to inject precisely that data which every Micro.blogger 
 </PageMap>
 -->
 ```
-{{< /language >}}
 
 Did it work? Time will tell. I assume we have to wait for Google to re-crawl the site’s pages, at which point the entries will show up in `pagemap` or they won’t.
 
@@ -187,157 +181,165 @@ Did it work? Time will tell. I assume we have to wait for Google to re-crawl the
 
 ### Required parameter values
 
-CX
-: The search engine identifier (*Required*).
-APIKey
-: The search engine API key (*Required*).
+<dl>
+<dt>CX</dt>
+<dd>The search engine identifier (*Required*).</dd>
+<dt>APIKey</dt>
+<dd>The search engine API key (*Required*).</dd>
+</dl>
 
 ### Build options
 
-Build.Fingerprint
-: Whether to provide subresource integrity by generating a base64-encoded cryptographic hash and attaching a `.Data.Integrity` property containing an integrity string, which is made up of the name of the hash function, one hyphen and the base64-encoded hash sum. (Default is `true`).
+<dl>
+<dt>Build.Fingerprint</dt>
+<dd>Whether to provide subresource integrity by generating a base64-encoded cryptographic hash and attaching a <code>.Data.Integrity</code> property containing an integrity string, which is made up of the name of the hash function, one hyphen and the base64-encoded hash sum. (Default is <code>true</code>).</dd>
 
-Build.SassOutput
-: Output style for the compiled Sass. Valid options are nested, expanded, compact and compressed (Default is `nested`).
+<dt>Build.SassOutput</dt>
+<dd>Output style for the compiled Sass. Valid options are nested, expanded, compact and compressed (Default is <code>nested</code>).</dd>
 
-Build.MinifyScript
-: Whether to minify the generated Javascript file (Default is `false`).
+<dt>Build.MinifyScript</dt>
+<dd>Whether to minify the generated Javascript file (Default is <code>false</code>).</dd>
+</dl>
 
 ### Search bar options
 
-SearchBar.ContainerID
-: The ID of the element that will serve as the parent of the search bar injected via Javascript (Default is `pse-container`).
+<dl>
+<dt>SearchBar.ContainerID</dt>
+<dd>The ID of the element that will serve as the parent of the search bar injected via Javascript (Default is <code>pse-container</code>).</dd>
 
-SearchBar.Input.Collapsible
-: Whether the input field of the search bar is collapsible. (Default is `true`).
+<dt>SearchBar.Input.Collapsible</dt>
+<dd>Whether the input field of the search bar is collapsible. (Default is <code>true</code>).</dd>
 
-SearchBar.Input.InitialState
-: Whether the input field is initially expanded or collapsed (Default is `collapsed`).
+<dt>SearchBar.Input.InitialState</dt>
+<dd>Whether the input field is initially expanded or collapsed (Default is <code>collapsed</code>).</dd>
+</dl>
 
 ### Sass variable values
 
-SearchBar.Input.Height
-: The height to set for the input field (Default is `auto`).
+<dl>
+<dt>SearchBar.Input.Height</dt>
+<dd>The height to set for the input field (Default is <code>auto</code>).</dd>
 
-SearchBar.Input.Width
-: The width to set for the input field (Default is `300px`).
+<dt>SearchBar.Input.Width</dt>
+<dd>The width to set for the input field (Default is <code>300px</code>).</dd>
 
-SearchBar.Input.Color
-: The color of text within the input field (Default is `black`).
+<dt>SearchBar.Input.Color</dt>
+<dd>The color of text within the input field (Default is <code>black</code>).</dd>
 
-SearchBar.Input.Placeholder.Text
-: The placeholder text displayed when the input field is empty (Default is `site search`).
+<dt>SearchBar.Input.Placeholder.Text</dt>
+<dd>The placeholder text displayed when the input field is empty (Default is <code>site search</code>).</dd>
 
-SearchBar.Input.Placeholder.Color
-: The color of the placeholder text (Default is `darkgray`).
+<dt>SearchBar.Input.Placeholder.Color</dt>
+<dd>The color of the placeholder text (Default is <code>darkgray</code>).</dd>
 
-SearchBar.Input.Transition.Duration
-: The duration to use when collapsing and expanding the search field (Default is `.35s`).
+<dt>SearchBar.Input.Transition.Duration</dt>
+<dd>The duration to use when collapsing and expanding the search field (Default is <code>.35s</code>).</dd>
 
-SearchBar.Input.Transition.TimingFunction
-: The time function to use when collapsing and expanding the search field (Default is `ease`).
+<dt>SearchBar.Input.Transition.TimingFunction</dt>
+<dd>The time function to use when collapsing and expanding the search field (Default is <code>ease</code>).</dd>
 
-SearchBar.Input.Padding.Y
-: The vertical padding to set on the input field (Default is `0`).
+<dt>SearchBar.Input.Padding.Y</dt>
+<dd>The vertical padding to set on the input field (Default is <code>0</code>).</dd>
 
-SearchBar.Input.Padding.X
-: The horizontal padding to set on the input field (Default is `0.5em`).
+<dt>SearchBar.Input.Padding.X</dt>
+<dd>The horizontal padding to set on the input field (Default is <code>0.5em</code>).</dd>
 
-SearchBar.Input.Border.Radius
-: The border radius value to set on the input field (Default is `1em`).
+<dt>SearchBar.Input.Border.Radius</dt>
+<dd>The border radius value to set on the input field (Default is <code>1em</code>).</dd>
 
-SearchBar.Input.Border.Style
-: The border style to set on the input field (Default is `solid`).
+<dt>SearchBar.Input.Border.Style</dt>
+<dd>The border style to set on the input field (Default is <code>solid</code>).</dd>
 
-SearchBar.Input.Border.Color
-: The border color to set on the input field (Default is `rgba(0,0,0,0.125)`).
+<dt>SearchBar.Input.Border.Color</dt>
+<dd>The border color to set on the input field (Default is <code>rgba(0,0,0,0.125)</code>).</dd>
 
-SearchBar.Input.Border.Width
-: The border width to set on the input field (Default is `1px`).
+<dt>SearchBar.Input.Border.Width</dt>
+<dd>The border width to set on the input field (Default is <code>1px</code>).</dd>
 
-SearchBar.Button.Color
-: The color to set for the button when the input is collapsed (Default is `lightgray`).
+<dt>SearchBar.Button.Color</dt>
+<dd>The color to set for the button when the input is collapsed (Default is <code>lightgray</code>).</dd>
 
-SearchBar.Button.Padding.X
-: The horizontal padding to set on the button (Default is `0.25em`).
+<dt>SearchBar.Button.Padding.X</dt>
+<dd>The horizontal padding to set on the button (Default is <code>0.25em</code>).</dd>
 
-SearchBar.Button.Padding.Y
-: The vertical padding to set on the button (Default is `0`).
+<dt>SearchBar.Button.Padding.Y</dt>
+<dd>The vertical padding to set on the button (Default is <code>0</code>).</dd>
 
-ResultsOverlay.Color
-: The text color to set on the overlay element (Default is `currentcolor`).
+<dt>ResultsOverlay.Color</dt>
+<dd>The text color to set on the overlay element (Default is <code>currentcolor</code>).</dd>
 
-ResultsOverlay.Font.Size
-: The font size to set on the overlay element (Default is `1rem`).
+<dt>ResultsOverlay.Font.Size</dt>
+<dd>The font size to set on the overlay element (Default is <code>1rem</code>).</dd>
 
-ResultsOverlay.BG.Color
-: The base background color (Default is `rgba(255,255,255,1)`).
+<dt>ResultsOverlay.BG.Color</dt>
+<dd>The base background color (Default is <code>rgba(255,255,255,1)</code>).</dd>
 
-ResultsOverlay.Header.Color
-: The color for header text (Default is `currentcolor`).
+<dt>ResultsOverlay.Header.Color</dt>
+<dd>The color for header text (Default is <code>currentcolor</code>).</dd>
 
-ResultsOverlay.Header.Font.Size
-: The font size to set for the results overlay header (Default is `inherit`).
+<dt>ResultsOverlay.Header.Font.Size</dt>
+<dd>The font size to set for the results overlay header (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Header.Font.Weight
-: The font weight to set for the results overlay header (Default is `inherit`).
+<dt>ResultsOverlay.Header.Font.Weight</dt>
+<dd>The font weight to set for the results overlay header (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Header.Font.Style
-: The font style to set for the results overlay header (Default is `inherit`).
+<dt>ResultsOverlay.Header.Font.Style</dt>
+<dd>The font style to set for the results overlay header (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Header.Terms.Color
-: The text color for the search terms (Default is `currentcolor`).
+<dt>ResultsOverlay.Header.Terms.Color</dt>
+<dd>The text color for the search terms (Default is <code>currentcolor</code>).</dd>
 
-ResultsOverlay.Header.Terms.Font.Size
-: The font size to set for the search terms (Default is `inherit`).
+<dt>ResultsOverlay.Header.Terms.Font.Size</dt>
+<dd>The font size to set for the search terms (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Header.Terms.Font.Weight
-: The font weight to set for the search terms (Default is `inherit`).
+<dt>ResultsOverlay.Header.Terms.Font.Weight</dt>
+<dd>The font weight to set for the search terms (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Header.Terms.Font.Style
-: The font style to set for the search terms (Default is `italic`).
+<dt>ResultsOverlay.Header.Terms.Font.Style</dt>
+<dd>The font style to set for the search terms (Default is <code>italic</code>).</dd>
 
-ResultsOverlay.Link.Color
-: The text color for the previous / next links (Default is `#646386`).
+<dt>ResultsOverlay.Link.Color</dt>
+<dd>The text color for the previous / next links (Default is <code>#646386</code>).</dd>
 
-ResultsOverlay.Link.TextDecoration
-: The text decoration for the previous / next links (Default is `none`).
+<dt>ResultsOverlay.Link.TextDecoration</dt>
+<dd>The text decoration for the previous / next links (Default is <code>none</code>).</dd>
 
-ResultsOverlay.Link.Hover.Color
-: The text color for the previous / next links when hovering (Default is `scale-color($results-overlay-link-color, $lightness: 10%)`).
+<dt>ResultsOverlay.Link.Hover.Color</dt>
+<dd>The text color for the previous / next links when hovering (Default is <code>scale-color($results-overlay-link-color, $lightness: 10%)</code>).</dd>
 
-ResultsOverlay.Link.Hover.TextDecoration
-: The text decoration for the previous / next links when hovering (Default is `underline`).
+<dt>ResultsOverlay.Link.Hover.TextDecoration</dt>
+<dd>The text decoration for the previous / next links when hovering (Default is <code>underline</code>).</dd>
 
-ResultsOverlay.Item.Title.Color
-: The text color for item title links (Default is `$results-overlay-link-color`).
+<dt>ResultsOverlay.Item.Title.Color</dt>
+<dd>The text color for item title links (Default is <code>$results-overlay-link-color</code>).</dd>
 
-ResultsOverlay.Item.Title.TextDecoration
-: The text decoration for the item title links (Default is `$results-overlay-link-text-decoration`).
+<dt>ResultsOverlay.Item.Title.TextDecoration</dt>
+<dd>The text decoration for the item title links (Default is <code>$results-overlay-link-text-decoration</code>).</dd>
 
-ResultsOverlay.Item.Title.Hover.Color
-: The text color for item title links when hovering (Default is `"$results-overlay-link-hover-color"`).
+<dt>ResultsOverlay.Item.Title.Hover.Color</dt>
+<dd>The text color for item title links when hovering (Default is <code>"$results-overlay-link-hover-color"</code>).</dd>
 
-ResultsOverlay.Item.Title.Hover.TextDecoration
-: The text decoration for the item title links when hovering (Default is `$results-overlay-link-hover-text-decoration`).
+<dt>ResultsOverlay.Item.Title.Hover.TextDecoration</dt>
+<dd>The text decoration for the item title links when hovering (Default is <code>$results-overlay-link-hover-text-decoration</code>).</dd>
 
-ResultsOverlay.Item.Title.Font.Size
-: The font size to set for item title links (Default is `inherit`).
+<dt>ResultsOverlay.Item.Title.Font.Size</dt>
+<dd>The font size to set for item title links (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Item.Title.Font.Weight
-: The font weight to set for item title links (Default is `inherit`).
+<dt>ResultsOverlay.Item.Title.Font.Weight</dt>
+<dd>The font weight to set for item title links (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Item.Title.Font.Style
-: The font style to set for item title links (Default is `inherit`).
+<dt>ResultsOverlay.Item.Title.Font.Style</dt>
+<dd>The font style to set for item title links (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Item.Snippet.Color
-: The text color for result item snippets (Default is `currentcolor`).
+<dt>ResultsOverlay.Item.Snippet.Color</dt>
+<dd>The text color for result item snippets (Default is <code>currentcolor</code>).</dd>
 
-ResultsOverlay.Item.Snippet.Font.Size
-: The font size for result item snippets (Default is `inherit`).
+<dt>ResultsOverlay.Item.Snippet.Font.Size</dt>
+<dd>The font size for result item snippets (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Item.Snippet.Font.Weight
-: The font weight for result item snippets (Default is `inherit`).
+<dt>ResultsOverlay.Item.Snippet.Font.Weight</dt>
+<dd>The font weight for result item snippets (Default is <code>inherit</code>).</dd>
 
-ResultsOverlay.Item.Snippet.Font.Style
-: The font style for result item snippets (Default is `inherit`).
+<dt>ResultsOverlay.Item.Snippet.Font.Style</dt>
+<dd>The font style for result item snippets (Default is <code>inherit</code>).</dd>
+</dl>
