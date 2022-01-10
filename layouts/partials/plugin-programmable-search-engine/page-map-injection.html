@@ -1,4 +1,4 @@
-{{ printf "\n<!--" | safeHTML }}
+{{- printf "\n<!--\n" | safeHTML -}}
 <PageMap>
   <DataObject type="post">
     <Attribute name="title">{{ .Title }}</Attribute>
@@ -35,4 +35,4 @@
   </DataObject>
 {{- end }}
 </PageMap>
-{{ printf "-->\n" | safeHTML }}
+{{- printf "\n-->\n" | safeHTML -}}

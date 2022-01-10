@@ -1,7 +1,5 @@
 @import "vendor/rfs";
 
-@mixin parameter { @content; }
-
 {{ with .Scratch.Get "plugin-programmable-search-engine.Parameters" }}
 
 div#{{ .SearchBar.ID }} {
@@ -44,7 +42,7 @@ div#{{ .SearchBar.ID }} {
     background: transparent;
     border: none;
     color: {{ .SearchBar.Button.Color }};
-    padding: {{ .SearchBar.Button.Padding.Y }} {{ .SearchBar.Button.Padding.X }};
+    @include padding({{ .SearchBar.Button.Padding.Y }} {{ .SearchBar.Button.Padding.X }});
     margin: 0;
     z-index: 2;
     
@@ -56,24 +54,7 @@ div#{{ .SearchBar.ID }} {
       color: black;
     
     } // &.expanded
-    
-    
-    /*!
-     * Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com
-     * License - https://fontawesome.com/license (Commercial License)
-     */
-    .svg-inline--fa {
-      display: inline-block;
-      font-size: inherit;
-      height: 1em;
-      overflow: visible;
-      align-self: baseline;
-      vertical-align: baseline;
-      fill: {{ .SearchBar.Button.Color }};
-      
-      &.fa-secondary { opacity: 0.4; }
-    }
-    
+        
   } // button#{{ .SearchBar.Button.ID }}
 
  } // div#{{ .SearchBar.ID }}
@@ -98,7 +79,7 @@ div#{{ .ResultsOverlay.ID }} {
     
     position: relative;
     overflow: auto;
-    font-size: {{ .ResultsOverlay.Article.Font.Size }};
+    @include font-size({{ .ResultsOverlay.Article.Font.Size }});
     color: {{ .ResultsOverlay.Article.Color }};
     background-color: {{ .ResultsOverlay.Article.BG.Color }};
     display: flex;
@@ -123,21 +104,21 @@ div#{{ .ResultsOverlay.ID }} {
       display: flex;
       justify-content: center;
       padding: 0;
-      margin: 1rem;
+      @include margin(1rem);
       color: {{ .ResultsOverlay.Header.Color }};
             
       #{{ .ResultsOverlay.Header.Title.ID }} {
         
         padding: 0;
         margin: 0;
-        font-size: {{ .ResultsOverlay.Header.Title.Font.Size }};
+        @include font-size({{ .ResultsOverlay.Header.Title.Font.Size }});
         font-weight: {{ .ResultsOverlay.Header.Title.Font.Weight }};
         font-style: {{ .ResultsOverlay.Header.Title.Font.Style }};
         
         #{{ .ResultsOverlay.Header.Terms.ID }} {
           
           color: {{ .ResultsOverlay.Header.Terms.Color }};
-          font-size: {{ .ResultsOverlay.Header.Terms.Font.Size }};
+          @include font-size({{ .ResultsOverlay.Header.Terms.Font.Size }});
           font-weight: {{ .ResultsOverlay.Header.Terms.Font.Weight }};
           font-style: {{ .ResultsOverlay.Header.Terms.Font.Style }};
           
@@ -162,10 +143,8 @@ div#{{ .ResultsOverlay.ID }} {
         align-items: stretch;
         gap: 1rem;
         padding: 0;
-        margin: 0 1rem;
+        @include margin(0 1rem);
         
-        
-
         /// Page results list item
         li.{{ .ResultItems.Item.ClassName }} {
           
@@ -194,7 +173,7 @@ div#{{ .ResultsOverlay.ID }} {
 
                 color: {{ .ResultItems.Item.Title.Color }};
                 text-decoration: {{ .ResultItems.Item.Title.TextDecoration }};
-                font-size: {{ .ResultItems.Item.Title.Font.Size }};
+                @include font-size({{ .ResultItems.Item.Title.Font.Size }});
                 font-weight: {{ .ResultItems.Item.Title.Font.Weight }};
                 font-style: {{ .ResultItems.Item.Title.Font.Style }};
                 
@@ -228,7 +207,7 @@ div#{{ .ResultsOverlay.ID }} {
                 
                 flex-grow: 1;
                 color: {{ .ResultItems.Item.Snippet.Color }};
-                font-size: {{ .ResultItems.Item.Snippet.Font.Size }};
+                @include font-size({{ .ResultItems.Item.Snippet.Font.Size }});
                 font-weight: {{ .ResultItems.Item.Snippet.Font.Weight }};
                 font-style: {{ .ResultItems.Item.Snippet.Font.Style }};
                 
@@ -289,10 +268,4 @@ div#{{ .ResultsOverlay.ID }} {
   
 } // div#{{ .ResultsOverlay.ID }}
 
-{{ end }}
-
-{{ define "rfs-wrap" }}
-{{ $pattern := `(font-size|padding|padding-top|padding-right|padding-bottom|padding-left|margin|margin-top|margin-right|margin-bottom|margin-left):\w*([^;]+)` }}
-{{ $replacement := `@include $1($2)` }}
-{{ replaceRE $pattern $replacement . }}
 {{ end }}
