@@ -1,57 +1,16 @@
-{{- /* Hugo variables */ -}}
-{{- $Collapsible := .Scratch.Get "SearchBar.Input.Collapsible" -}}
-{{- $InitialState := .Scratch.Get "SearchBar.Input.InitialState" -}}
-{{- $CX := .Scratch.Get "CX" -}}
-{{- $APIKey := .Scratch.Get "APIKey" -}}
-{{- $ContainerID := .Scratch.Get "SearchBar.ContainerID" -}}
-{{- $PlaceholderText := .Scratch.Get "SearchBar.Input.Placeholder.Text" -}}
+{{ with .Scratch.Get "plugin-programmable-search-engine.Parameters" -}}
 
-/* Constants */
-
-// HTML element IDs
-const SEARCH_BAR_ID            = 'pse-search-bar'
-const SEARCH_BAR_INPUT_ID      = 'pse-search-bar-input'
-const SEARCH_BAR_BUTTON_ID     = 'pse-search-bar-button'
-const RESULTS_OVERLAY_ID       = 'pse-results-overlay'
-const RESULTS_ARTICLE_ID       = 'pse-results-article'
-const RESULTS_HEADER_ID        = 'pse-results-header'
-const RESULTS_TITLE_ID         = 'pse-results-title'
-const RESULTS_SEARCH_TERMS_ID  = 'pse-results-search-terms'
-const RESULTS_ITEMS_ID         = 'pse-results-items'
-const RESULTS_ITEM_LIST_ID     = 'pse-results-item-list'
-const RESULTS_FOOTER_ID        = 'pse-results-footer'
-const RESULTS_PREVIOUS_PAGE_ID = 'pse-results-previous-page'
-const RESULTS_NEXT_PAGE_ID     = 'pse-results-next-page'
-
-
-// HTML element class names
-const RESULT_LIST_ITEM_CLASS      = 'pse-result-item'
-const RESULT_ITEM_ARTICLE_CLASS   = 'pse-result-item-article'
-const RESULT_ITEM_HEADER_CLASS    = 'pse-result-item-header'
-const RESULT_ITEM_BODY_CLASS      = 'pse-result-item-body'
-const RESULT_ITEM_TITLE_CLASS     = 'pse-result-item-title'
-const RESULT_ITEM_SNIPPET_CLASS   = 'pse-result-item-snippet'
-const RESULT_ITEM_THUMBNAIL_CLASS = 'pse-result-item-thumbnail'
-
-// CSS custom variable names
-const INPUT_WIDTH        = '--pse-search-bar-input-width'
-const INPUT_PADDING_X    = '--pse-search-bar-input-padding-x'
-const INPUT_BORDER_STYLE = '--pse-search-bar-input-border-style'
-
-// Property symbols
-const WIDTH          = Symbol(INPUT_WIDTH)
-const PADDING_X      = Symbol(INPUT_PADDING_X)
-const BORDER_STYLE   = Symbol(INPUT_BORDER_STYLE)
+/* Property symbols */
 
 const EVENT_HANDLED  = Symbol('eventHandled')
 
-const INPUT_ELEMENT    = Symbol(SEARCH_BAR_INPUT_ID)
-const OVERLAY_ELEMENT  = Symbol(RESULTS_OVERLAY_ID)
-const ARTICLE_ELEMENT  = Symbol(RESULTS_ARTICLE_ID)
-const TERMS_ELEMENT    = Symbol(RESULTS_SEARCH_TERMS_ID)
-const LIST_ELEMENT     = Symbol(RESULTS_ITEM_LIST_ID)
-const PREVIOUS_ELEMENT = Symbol(RESULTS_PREVIOUS_PAGE_ID)
-const NEXT_ELEMENT     = Symbol(RESULTS_NEXT_PAGE_ID)
+const INPUT_ELEMENT    = Symbol({{ .SearchBar.Input.ID }})
+const OVERLAY_ELEMENT  = Symbol({{ .ResultsOverlay.ID }})
+const ARTICLE_ELEMENT  = Symbol({{ .ResultsOverlay.Article.ID }})
+const TERMS_ELEMENT    = Symbol({{ .ResultsOverlay.Header.Terms.ID }})
+const LIST_ELEMENT     = Symbol({{ .ResultItems.List.ID }})
+const PREVIOUS_ELEMENT = Symbol({{ .ResultsOverlay.Footer.PreviousPageLink.ID }})
+const NEXT_ELEMENT     = Symbol({{ .ResultsOverlay.Footer.NextPageLink.ID }})
 
 /* 
   Load the rest API when the DOM content has loaded,
@@ -60,7 +19,7 @@ const NEXT_ELEMENT     = Symbol(RESULTS_NEXT_PAGE_ID)
 document.addEventListener('DOMContentLoaded',() => {
   
   gapi?.load('client', () => {
-      gapi.client.setApiKey('{{ $APIKey }}');
+      gapi.client.setApiKey('{{ .Config.APIKey }}');
       gapi.client.load('https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest')
       .then(() => {
         console.log('GAPI client loaded')
@@ -132,7 +91,7 @@ function search(q, start) {
   
   // Invoke the search with above handler
   gapi?.client?.search.cse
-    .list({'cx': '{{ $CX }}', 'q': `${q}`, 'start': start})
+    .list({'cx': '{{ .Config.CX }}', 'q': `${q}`, 'start': start})
     .then(response => handler(response), err => console.log(err))
     
 }
@@ -143,16 +102,16 @@ function search(q, start) {
 */ 
 function insertSearchBar() {
   
-  let container = document.getElementById('{{ $ContainerID }}')
+  let container = document.getElementById('{{ .SearchBar.ContainerID }}')
   
   let searchBar = document.createElement('DIV')
-  searchBar.id = SEARCH_BAR_ID
+  searchBar.id = {{ .SearchBar.ID }}
   container.appendChild(searchBar)      
 
   let input = document.createElement('INPUT')
   input.type = 'search'
-  input.id = SEARCH_BAR_INPUT_ID
-  input.placeholder = '{{ $PlaceholderText }}'
+  input.id = {{ .SearchBar.Input.ID }}
+  input.placeholder = '{{ .SearchBar.Input.Placeholder.Text }}'
   input.name = 'pse'
   input.setAttribute('aria-label', 'site search')
   input.onkeyup = ({key}) => key === 'Enter' && (input.blur() || search(input.value, 1))
@@ -160,7 +119,7 @@ function insertSearchBar() {
   document[INPUT_ELEMENT] = input
   
   let button = document.createElement('BUTTON')
-  button.id = SEARCH_BAR_BUTTON_ID
+  button.id = {{ .SearchBar.Button.ID }}
   button.type = 'button'
   searchBar.appendChild(button)
 
@@ -193,18 +152,19 @@ function insertSearchBar() {
     </svg>`
   button.appendChild(svg)      
   
-{{ if $Collapsible }}
+{{ if .SearchBar.Input.Collapsible }}
   /* Configure button for expanding and collapsing the input */
-  const IS_EXPANDED = Symbol()
+  const IS_EXPANDED  = Symbol()
   
   const toggleInput = () => {
         
     if (button[IS_EXPANDED]) {
       // Collapse the input
       
-      input.style.setProperty(INPUT_WIDTH, 0)
-      input.style.setProperty(INPUT_PADDING_X, 0)
-      input.style.setProperty(INPUT_BORDER_STYLE, 'none')
+      input.style.width = 0
+      input.style.paddingLeft = 0
+      input.style.paddingRight = 0
+      input.style.borderStyle = 'none'
       button.setAttribute('aria-expanded', false)
       button[IS_EXPANDED] = false
     }
@@ -212,31 +172,28 @@ function insertSearchBar() {
     else {
       // Expand the input
       
-      input.style.setProperty(INPUT_WIDTH, input[WIDTH])
-      input.style.setProperty(INPUT_PADDING_X, input[PADDING_X])
-      input.style.setProperty(INPUT_BORDER_STYLE, input[BORDER_STYLE])
+      input.style.width = '{{ .SearchBar.Input.Width }}'
+      input.style.paddingLeft = '{{ .SearchBar.Input.Padding.X }}'
+      input.style.paddingRight = '{{ .SearchBar.Input.Padding.X }}'
+      input.style.borderStyle = '{{ .SearchBar.Input.Border.Style }}'
       button.setAttribute('aria-expanded', true)
       button[IS_EXPANDED] = true
     }
     
   }
-  
-  let computedStyle = getComputedStyle(container)
-  
-  input[WIDTH] = computedStyle.getPropertyValue(INPUT_WIDTH)
-  input[PADDING_X] = computedStyle.getPropertyValue(INPUT_PADDING_X)
-  input[BORDER_STYLE] = computedStyle.getPropertyValue(INPUT_BORDER_STYLE)
+    
   input.onblur = toggleInput
   button.onclick = toggleInput
-  button.setAttribute('aria-controls', SEARCH_BAR_INPUT_ID)
+  button.setAttribute('aria-controls', {{ .SearchBar.Input.ID }})
   
-  {{ if not (eq (lower $InitialState) "expanded") }}
+  {{ if not (eq (lower .SearchBar.Input.InitialState) "expanded") }}
   
   button.setAttribute('aria-expanded', false)
   button[IS_EXPANDED] = false
-  input.style.setProperty(INPUT_WIDTH, 0)
-  input.style.setProperty(INPUT_PADDING_X, 0)
-  input.style.setProperty(INPUT_BORDER_STYLE, 'none')
+  input.style.width = 0
+  input.style.paddingLeft = 0
+  input.style.paddingRight = 0
+  input.style.borderStyle = 'none'
   
   {{ else }}
   
@@ -262,51 +219,51 @@ function insertSearchBar() {
 function insertResultsOverlay() {
   
   let overlay = document.createElement('DIV')
-  overlay.id = RESULTS_OVERLAY_ID
+  overlay.id = {{ .ResultsOverlay.ID }}
   overlay.onclick = event => !event[EVENT_HANDLED] && (overlay.style.display = 'none')
   document[OVERLAY_ELEMENT] = overlay
   
   let article = document.createElement('ARTICLE')
-  article.id = RESULTS_ARTICLE_ID
+  article.id = {{ .ResultsOverlay.Article.ID }}
   overlay.appendChild(article)
   document[ARTICLE_ELEMENT] = article
   
   let header = document.createElement('HEADER')
-  header.id = RESULTS_HEADER_ID
+  header.id = {{ .ResultsOverlay.Header.ID }}
   article.appendChild(header)
     
   let title = document.createElement('H2')
-  title.id = RESULTS_TITLE_ID
+  title.id = {{ .ResultsOverlay.Header.Title.ID }}
   title.appendChild(document.createTextNode('Showing results for '))  
   header.appendChild(title)
     
   let terms = document.createElement('SPAN')
-  terms.id = RESULTS_SEARCH_TERMS_ID
+  terms.id = {{ .ResultsOverlay.Header.Terms.ID }}
   terms.innerText = 'searchTerms'
   title.appendChild(terms)
   document[TERMS_ELEMENT] = terms
   
   let items = document.createElement('SECTION')
-  items.id = RESULTS_ITEMS_ID
+  items.id = {{ .ResultItems.ID }}
   article.appendChild(items)
   
   let list = document.createElement('UL')
-  list.id = RESULTS_ITEM_LIST_ID
+  list.id = {{ .ResultItems.List.ID }}
   items.appendChild(list)
   document[LIST_ELEMENT] = list
   
   let footer = document.createElement('FOOTER')
-  footer.id = RESULTS_FOOTER_ID  
+  footer.id = {{ .ResultsOverlay.Footer.ID }}  
   article.appendChild(footer)
     
   let previous = document.createElement('A')
-  previous.id = RESULTS_PREVIOUS_PAGE_ID
+  previous.id = {{ .ResultsOverlay.Footer.PreviousPageLink.ID }}
   previous.innerText = 'previous'
   footer.appendChild(previous)
   document[PREVIOUS_ELEMENT] = previous
     
   let next = document.createElement('A')
-  next.id = RESULTS_NEXT_PAGE_ID
+  next.id = {{ .ResultsOverlay.Footer.NextPageLink.ID }}
   next.innerText = 'next'
   footer.appendChild(next)
   document[NEXT_ELEMENT] = next
@@ -319,24 +276,24 @@ function insertResultsOverlay() {
 function resultListItem(result) {
   
   let listItem = document.createElement('LI')
-  listItem.className = RESULT_LIST_ITEM_CLASS
+  listItem.className = {{ .ResultItems.Item.ClassName }}
   
   let article = document.createElement('ARTICLE')
-  article.className = RESULT_ITEM_ARTICLE_CLASS
+  article.className = {{ .ResultItems.Item.Article.ClassName }}
   listItem.appendChild(article)
   
   let header = document.createElement('HEADER')
-  header.className = RESULT_ITEM_HEADER_CLASS
+  header.className = {{ .ResultItems.Item.Header.ClassName }}
   article.appendChild(header)
   
   let link = document.createElement('A')
   link.href = result.link
-  link.className = RESULT_ITEM_TITLE_CLASS
+  link.className = {{ .ResultItems.Item.Title.ClassName }}
   link.innerText = `${result.title} - ${result.displayLink}`
   header.appendChild(link)
   
   let section = document.createElement('SECTION')
-  section.className = RESULT_ITEM_BODY_CLASS
+  section.className = {{ .ResultItems.Item.Body.ClassName }}
   article.appendChild(section)
   
   let thumbnail = result.pagemap.cse_thumbnail
@@ -344,7 +301,7 @@ function resultListItem(result) {
     let {src, width, height} = thumbnail[0]
     link = document.createElement('A')
     link.href = result.link
-    link.className = RESULT_ITEM_THUMBNAIL_CLASS
+    link.className = {{ .ResultItems.Item.Thumbnail.ClassName }}
     section.appendChild(link)
     
     let img = document.createElement('IMG')
@@ -355,9 +312,11 @@ function resultListItem(result) {
   }
 
   let snippet = document.createElement('P')
-  snippet.className = RESULT_ITEM_SNIPPET_CLASS
+  snippet.className = {{ .ResultItems.Item.Snippet.ClassName }}
   snippet.innerHTML = result.htmlSnippet
   section.appendChild(snippet)
   
   return listItem
 }
+
+{{- end }}
