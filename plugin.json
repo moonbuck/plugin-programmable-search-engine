@@ -1,5 +1,5 @@
 {
-  "version": "2.0.2",
+  "version": "2.0.3",
   "title": "Moondeer's Programmable Search Engine",
   "description": "A plugin for injecting Google's programmable search engine",
   "includes": [

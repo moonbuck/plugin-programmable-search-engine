@@ -58,7 +58,8 @@ function search(q, start) {
     while (list.firstChild) { list.removeChild(list.firstChild) }
     
     // Map result items to LI items and append to the list
-    items.map(result => resultListItem(result))
+    items.filter(result => (p => p && p != '/')(new URL(result.link).pathname))
+         .map(result => resultListItem(result))
          .forEach(listItem => list.appendChild(listItem))
     
     const loadPage = start => {
