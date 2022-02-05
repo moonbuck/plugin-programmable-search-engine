@@ -2,6 +2,8 @@
 
 ![results-page](https://raw.githubusercontent.com/moonbuck/plugin-programmable-search-engine/main/images/results-page.jpeg)
 
+*Updated README coming soon.*
+
 A plugin for [Micro.blog](https://micro.blog "Micro.blog") for adding a site search interface using Google’s [programmable search engiine](https://programmablesearchengine.google.com "Programmable Search Engine") API.
 
 ## Creating your Google Programmable Search Engine

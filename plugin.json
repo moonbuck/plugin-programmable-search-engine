@@ -1,7 +1,7 @@
 {
   "version": "2.0.3",
   "title": "Moondeer's Programmable Search Engine",
-  "description": "A plugin for injecting Google's programmable search engine",
+  "description": "A plugin for injecting Google's programmable search engine. An updated README is on the way. See the documented configuration files in the plugin's data directory for plugin parameters and feel free to holler at me with any questions. ",
   "includes": [
     "plugin-programmable-search-engine/injection.html"
   ]
